@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import QRCode from 'react-qr-code'
 import html2canvas from 'html2canvas'
 import './App.css';
@@ -32,8 +32,22 @@ function App() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxZoom, setLightboxZoom] = useState(1)
   const [lightboxRotation, setLightboxRotation] = useState(0)
-  const generateQRData = (formData) => {
-    switch (activeTab) {
+  const [activeFAQ, setActiveFAQ] = useState([])
+
+  const toggleFAQ = (index) => {
+    setActiveFAQ((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  }
+
+  const handleDataChange = useCallback((data, tab) => {
+    setQrData(generateQRData(data, tab))
+  }, [])
+
+  const generateQRData = (formData, tab) => {
+    switch (tab) {
       case 'URL':
         return formData.url || 'https://dingdoong.io/'
       case 'FACEBOOK':
@@ -49,14 +63,7 @@ function App() {
       case 'WIFI':
         return `WIFI:T:${formData.security};S:${formData.ssid};P:${formData.password};;`
       case 'VCARD':
-        return `BEGIN:VCARD
-VERSION:3.0
-FN:${formData.name}
-ORG:${formData.organization}
-TEL:${formData.phone}
-EMAIL:${formData.email}
-URL:${formData.website}
-END:VCARD`
+        return `BEGIN:VCARD\nVERSION:3.0\nFN:${formData.name}\nORG:${formData.organization}\nTEL:${formData.phone}\nEMAIL:${formData.email}\nURL:${formData.website}\nEND:VCARD`
       case 'GOOGLE REVIEW':
         return formData.reviewUrl || ''
       default:
@@ -180,8 +187,7 @@ END:VCARD`
       alert('Failed to copy QR code to clipboard')
     }
   }
-  return (
-    <div className="qr-app-root">
+  return (    <div className="qr-app-root">
       <header className="qr-header">
         <h1 className="qr-title">Free QR Code Generator</h1>
         <div className="qr-badges-row">
@@ -216,36 +222,34 @@ END:VCARD`
         <div className="qr-content-container">
           <div className="qr-left-panel">
             {/* Enter Content Section */}
-            <div className="qr-section">
-              <div 
+            <div className="qr-section">              <div 
                 className="qr-section-header"
                 onClick={() => setContentExpanded(!contentExpanded)}
               >
                 <div className="section-icon">💰</div>
                 <span>Enter content</span>
                 <div className={`dropdown-arrow ${contentExpanded ? 'expanded' : ''}`}>▼</div>
-              </div>              {contentExpanded && (
-                <div className={`qr-section-content ${contentExpanded ? 'expanded' : ''}`}>
-                  <QRFormContent 
+              </div>
+              <div className={`qr-section-content ${contentExpanded ? 'expanded' : 'collapsed'}`}>
+                <div className="content-wrapper">                  <QRFormContent 
                     activeTab={activeTab} 
-                    onDataChange={(data) => setQrData(generateQRData(data))}
-                    initialData={{ url: 'https://dingdoong.io/' }}
+                    onDataChange={(data) => handleDataChange(data, activeTab)}
                   />
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Section Colors */}
-            <div className="qr-section">
-              <div 
+            <div className="qr-section">              <div 
                 className="qr-section-header"
                 onClick={() => setColorsExpanded(!colorsExpanded)}
               >
                 <div className="section-icon">🎨</div>
                 <span>Section colors</span>
                 <div className={`dropdown-arrow ${colorsExpanded ? 'expanded' : ''}`}>▼</div>
-              </div>              {colorsExpanded && (
-                <div className={`qr-section-content ${colorsExpanded ? 'expanded' : ''}`}>
+              </div>
+              <div className={`qr-section-content ${colorsExpanded ? 'expanded' : 'collapsed'}`}>
+                <div className="content-wrapper">
                   <div className="color-options">
                     <div className="color-group">
                       <label>Foreground Color:</label>
@@ -265,36 +269,36 @@ END:VCARD`
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Add Logo Image */}
-            <div className="qr-section">
-              <div 
+            <div className="qr-section">              <div 
                 className="qr-section-header"
                 onClick={() => setLogoExpanded(!logoExpanded)}
               >
                 <div className="section-icon">🖼️</div>
                 <span>Add logo image</span>
                 <div className={`dropdown-arrow ${logoExpanded ? 'expanded' : ''}`}>▼</div>
-              </div>              {logoExpanded && (
-                <div className={`qr-section-content ${logoExpanded ? 'expanded' : ''}`}>
+              </div>
+              <div className={`qr-section-content ${logoExpanded ? 'expanded' : 'collapsed'}`}>
+                <div className="content-wrapper">
                   <p>Logo functionality coming soon...</p>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Customize Design */}
-            <div className="qr-section">
-              <div 
+            <div className="qr-section">              <div 
                 className="qr-section-header"
                 onClick={() => setDesignExpanded(!designExpanded)}
               >
                 <div className="section-icon">🎯</div>
                 <span>Customize design</span>
                 <div className={`dropdown-arrow ${designExpanded ? 'expanded' : ''}`}>▼</div>
-              </div>              {designExpanded && (
-                <div className={`qr-section-content ${designExpanded ? 'expanded' : ''}`}>
+              </div>
+              <div className={`qr-section-content ${designExpanded ? 'expanded' : 'collapsed'}`}>
+                <div className="content-wrapper">
                   <div className="design-options">
                     <label>Error Correction:</label>
                     <select value={errorLevel} onChange={(e) => setErrorLevel(e.target.value)}>
@@ -305,14 +309,13 @@ END:VCARD`
                     </select>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
           
           <div className="qr-right-panel">
             <div className="qr-preview-section">
-              <button className="reset-btn" onClick={resetQR}>Reset</button>              
-              <div className="qr-display">                
+              <div className="qr-display">
                 <div ref={qrRef} className="qr-code-container" onClick={openLightbox} style={{ cursor: 'pointer' }}>
                   <QRCode
                     value={qrData}
@@ -321,13 +324,8 @@ END:VCARD`
                     fgColor={fgColor}
                     level={errorLevel}
                   />
-                  <div className="preview-overlay">
-                    <div className="preview-text">
-                      <span className="preview-icon">👁️</span>
-                      <span>Preview</span>
-                    </div>
-                  </div>
                 </div>
+                <button className="reset-btn" onClick={resetQR}>Reset</button>
               </div>
               
               <div className="size-control">
@@ -405,20 +403,174 @@ END:VCARD`
               </button>
             </div>
           </div>
+        </div>      )}      {/* What type of QR Code section */}
+      <div className="info-section">
+        <div className="info-container">
+          <h2 className="info-title">What type of QR Code can I create?</h2>
+          <p className="info-subtitle">QR Codes are entirely free and come with no expiry or scan limits</p>
+          <div className="qr-types-grid">
+            <div className="qr-type-card">
+              <div className="qr-type-icon">🌐</div>
+              <h3>URL</h3>
+              <p>Use this type to open a link to a webpage, social channel, contact form, or Youtube</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">📝</div>
+              <h3>Text</h3>
+              <p>Use this type to display text in any language, with no limit on characters</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">✉️</div>
+              <h3>Email</h3>
+              <p>Use this type to send an email to a specific person with a pre-set message</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">📞</div>
+              <h3>Phone</h3>
+              <p>Use this type to call a contact directly, no need to type the phone number</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">📍</div>
+              <h3>Location</h3>
+              <p>Use this type to connect a location without typing the address</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">📶</div>
+              <h3>Wifi</h3>
+              <p>Use this type to connect a Wifi network without typing the password</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">👤</div>
+              <h3>Business profile</h3>
+              <p>Use this type to connect your business profile or website</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">🍽️</div>
+              <h3>Restaurant menu</h3>
+              <p>Use this type to connect your restaurant menu</p>
+            </div>
+            <div className="qr-type-card">
+              <div className="qr-type-icon">⋯</div>
+              <h3>More to come</h3>
+              <p>Many features and updates are upcoming and we're actively working on them</p>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
+
+      {/* FAQ section */}
+      <div className="faq-section">
+        <div className="faq-container">
+          <h2 className="faq-title">Frequently Asked Questions</h2>          <div className="faq-list">
+            <div className={`faq-item ${activeFAQ.includes(0) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(0)}>
+                <h3>What is a QR code?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(0) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>A QR code (Quick Response code) is a type of two-dimensional barcode that can store various types of information such as text, URLs, contact information, and more. It can be scanned using a smartphone camera or QR code reader.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(1) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(1)}>
+                <h3>How long do QR codes last?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(1) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>QR codes do not expire, and they can last indefinitely as long as the printed code remains intact and scannable.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(2) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(2)}>
+                <h3>What is a QR code generator?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(2) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>A QR code generator is an online tool or software that creates QR codes. Users can input information such as URLs, text, or contact details, and the generator produces a QR code that can be scanned to access that information.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(3) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(3)}>
+                <h3>What are the benefits of using QR codes?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(3) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>QR codes offer quick access to information, enhance user engagement, are easy to create and use, and can store a variety of data types.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(4) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(4)}>
+                <h3>How do I create a QR code?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(4) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+              <ul>
+                <li>Step 1: Select your QR code type: You may choose from URL, vCard, Plain Text, Facebook, WiFi, and Google Review.</li>
+                <li>Step 2: Fill all the details: Enter all the information we require that appears. Then, select "Generate."</li>
+                <li>Step 3: Download your QR Code.</li>
+              </ul>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(5) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(5)}>
+                <h3>Do QR codes require an internet connection to work?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(5) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>QR codes themselves don't require internet to be scanned, but the content they link to (like websites) may require an internet connection. Text, WiFi, and contact information QR codes work offline.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(6) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(6)}>
+                <h3>Are QR codes free to use?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(6) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>All of DingDoong's QR Codes are free. Our small note: you won't be able to modify the information, so always test and make sure they work before printing.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(7) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(7)}>
+                <h3>How do I ensure my QR code is scannable?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(7) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>To ensure your QR code is scannable, use high contrast colors, keep the design simple, avoid resizing too small, and test the code with multiple devices before distribution.</p>
+              </div>
+            </div>
+            <div className={`faq-item ${activeFAQ.includes(8) ? 'active' : ''}`}>
+              <div className="faq-question" onClick={() => toggleFAQ(8)}>
+                <h3>Can QR codes be customized?</h3>
+                <span className="faq-toggle">{activeFAQ.includes(8) ? '⌄' : '⌃'}</span>
+              </div>
+              <div className="faq-answer">
+                <p>Yes, QR codes can be customized with different colors, logos, and designs to match your branding while still remaining scannable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function QRFormContent({ activeTab, onDataChange, initialData }) {
-  const [formData, setFormData] = useState(initialData || {})
-  React.useEffect(() => {
-    if (initialData) {
-      setFormData(initialData)
-      onDataChange(initialData)
+function QRFormContent({ activeTab, onDataChange }) {
+  const [formData, setFormData] = useState({})
+  
+  useEffect(() => {
+    const defaults = {
+      URL: { url: 'https://dingdoong.io/' },
+      FACEBOOK: { facebook: '' },
+      TEXT: { text: '' },
+      EMAIL: { email: '', subject: '', body: '' },  
+      PHONE: { phone: '' },
+      LOCATION: { latitude: '', longitude: '', address: '', searchLocation: '' },
+      WIFI: { ssid: '', password: '', security: 'WPA' },
+      VCARD: { name: '', organization: '', phone: '', email: '', website: '' },
+      'GOOGLE REVIEW': { reviewUrl: '' }
     }
-  }, [initialData, onDataChange])
+    setFormData({ ...defaults[activeTab] })
+  }, [activeTab])
   const handleInputChange = (field, value) => {
     const newData = { ...formData, [field]: value }
     setFormData(newData)
