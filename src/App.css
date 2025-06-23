@@ -1141,3 +1141,144 @@ select option {
     background-position: right 10px center;
   }
 }
+
+/* Logo Upload Section Styles */
+.logo-upload-section {
+  margin-top: 10px;
+}
+
+.logo-upload-header {
+  margin-bottom: 15px;
+}
+
+.logo-upload-header strong {
+  color: #333;
+  font-size: 16px;
+}
+
+.upload-container {
+  margin-bottom: 15px;
+}
+
+.upload-area {
+  border: 2px dashed #e1e5e9;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area:hover {
+  border-color: #e91e63;
+  background-color: #fdf7f9;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-icon {
+  font-size: 32px;
+  color: #e91e63;
+}
+
+.upload-placeholder div:last-child {
+  font-weight: 500;
+  color: #666;
+}
+
+.logo-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-preview img {
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload-info {
+  margin-bottom: 20px;
+}
+
+.upload-info p {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.predefined-logos-section {
+  border-top: 1px solid #e1e5e9;
+  padding-top: 20px;
+}
+
+.predefined-header {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.predefined-header strong {
+  color: #333;
+  font-size: 16px;
+}
+
+.logo-list {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+  font-size: 20px;
+}
+
+.icon-box:hover {
+  border-color: #e91e63;
+  background-color: #fdf7f9;
+  transform: translateY(-2px);
+}
+
+.clear-logo-btn {
+  display: block;
+  margin: 0 auto;
+  background-color: transparent;
+  border: 1px solid #e1e5e9;
+  color: #666;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.clear-logo-btn:hover:not(:disabled) {
+  border-color: #e91e63;
+  color: #e91e63;
+}
+
+.clear-logo-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
