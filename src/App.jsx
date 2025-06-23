@@ -88,9 +88,26 @@ END:VCARD`
     // In this case, QR code is generated automatically when data changes
     console.log('QR Code created!')
   }
-
   return (
     <div className="qr-app-root">
+      <header className="qr-header">
+        <h1 className="qr-title">Free QR Code Generator</h1>
+        <div className="qr-badges-row">
+          <div className="qr-badge">
+            <span className="qr-badge-icon">💰</span>
+            <span>Free</span>
+          </div>
+          <div className="qr-badge">
+            <span className="qr-badge-icon">🕒</span>
+            <span>QR made easy, in seconds</span>
+          </div>
+          <div className="qr-badge">
+            <span className="qr-badge-icon">📊</span>
+            <span>Unlimited use and scans</span>
+          </div>
+        </div>
+      </header>
+      
       <div className="qr-main-container">
         <nav className="qr-tabbar">
           {tabs.map(tab => (
