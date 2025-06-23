@@ -73,6 +73,7 @@ body {
 /* Tab bar */
 .qr-tabbar {
   display: flex;
+  justify-content: center;
   background: #f8f9fa;
   border-bottom: 1px solid #e9ecef;
   overflow-x: auto;
@@ -135,12 +136,29 @@ body {
   padding: 16px 20px;
   background: #f8f9fa;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   user-select: none;
+  position: relative;
 }
 
 .qr-section-header:hover {
   background: #f1f3f4;
+  transform: translateX(2px);
+}
+
+.qr-section-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: #e91e63;
+  transition: width 0.3s ease;
+}
+
+.qr-section-header:hover::after {
+  width: 3px;
 }
 
 .section-icon {
@@ -164,7 +182,7 @@ body {
 .dropdown-arrow {
   font-size: 12px;
   color: #6c757d;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dropdown-arrow.expanded {
@@ -172,8 +190,20 @@ body {
 }
 
 .qr-section-content {
-  padding: 20px;
+  padding: 0 20px;
   background: white;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qr-section-content.expanded {
+  padding: 20px;
+  max-height: 800px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Form styles */
@@ -294,6 +324,68 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: inline-block;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.qr-code-container:hover {
+  transform: scale(1.02);
+}
+
+.click-to-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+}
+
+.qr-code-container:hover .click-to-preview {
+  opacity: 1;
+}
+
+.preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+}
+
+.qr-code-container:hover .preview-overlay {
+  opacity: 1;
+}
+
+.preview-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.preview-icon {
+  font-size: 16px;
 }
 
 /* Size control */
@@ -363,7 +455,8 @@ body {
 
 /* Action buttons */
 .action-buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
   width: 100%;
 }
@@ -401,6 +494,203 @@ body {
 .download-btn:hover {
   background: #e9ecef;
   color: #495057;
+}
+
+.copy-btn {
+  flex: 1;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: #218838;
+}
+
+/* Preview mode styles */
+.preview-btn {
+  flex: 1;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.preview-btn:hover {
+  background: #138496;
+}
+
+.preview-btn.active {
+  background: #28a745;
+}
+
+.preview-btn.active:hover {
+  background: #218838;
+}
+
+.preview-indicator {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: #155724;
+  font-weight: 500;
+}
+
+/* Location specific styles */
+.map-container {
+  margin: 16px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coordinate-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.search-btn {
+  width: 100%;
+  background: #e91e63;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #d81b60;
+}
+
+.location-info {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.location-info small {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+/* Lightbox styles */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+}
+
+.lightbox-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-qr-display {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-controls {
+  display: flex;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.control-btn.close-btn {
+  background: rgba(255, 0, 0, 0.3);
+}
+
+.control-btn.close-btn:hover {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+/* Mobile responsive for lightbox */
+@media (max-width: 768px) {
+  .lightbox-container {
+    gap: 15px;
+  }
+  
+  .lightbox-qr-display {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .lightbox-controls {
+    gap: 8px;
+    padding: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .control-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
 }
 
 /* Responsive design */
@@ -441,14 +731,17 @@ body {
     padding: 12px 16px;
     font-size: 13px;
   }
-  
-  .color-options {
+    .color-options {
     flex-direction: column;
     gap: 16px;
   }
   
-  .action-buttons {
-    flex-direction: column;
+  .coordinate-inputs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }  .action-buttons {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 
