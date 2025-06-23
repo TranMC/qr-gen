@@ -23,7 +23,7 @@ function App() {
   const [fgColor, setFgColor] = useState('#e91e63')
   const [errorLevel, setErrorLevel] = useState('M')
   const [contentExpanded, setContentExpanded] = useState(true)
-  const [colorsExpanded, setColorsExpanded] = useState(false)
+  const [colorsExpanded, setColorsExpanded] = useState(true)
   const [logoExpanded, setLogoExpanded] = useState(false)
   const [designExpanded, setDesignExpanded] = useState(false)
   const qrRef = useRef()
@@ -73,11 +73,10 @@ function App() {
   const downloadQR = async () => {
     if (!qrData) return
     
-    // Use html2canvas on the current QR code and scale it
     const element = qrRef.current
     const canvas = await html2canvas(element, {
       backgroundColor: null,
-      scale: size / 293 // Scale from 293px display size to actual size
+      scale: size / 293 
     })
     
     const link = document.createElement('a')
@@ -96,7 +95,6 @@ function App() {
         scale: size / 293
       })
       
-      // Convert canvas to blob and copy to clipboard
       canvas.toBlob(async (blob) => {
         if (blob) {
           await navigator.clipboard.write([
@@ -119,10 +117,8 @@ function App() {
     setErrorLevel('M')
   }
   const createQRCode = () => {
-    // This function can be used to trigger QR code generation
-    // In this case, QR code is generated automatically when data changes
     console.log('QR Code created!')
-  }  // Lightbox functions
+  }  
   const openLightbox = () => {
     setLightboxOpen(true)
     setLightboxZoom(1)
@@ -155,7 +151,7 @@ function App() {
     const element = lightboxQrRef.current
     const canvas = await html2canvas(element, {
       backgroundColor: null,
-      scale: 2 // High quality for lightbox download
+      scale: 2 
     })
     
     const link = document.createElement('a')
@@ -187,7 +183,8 @@ function App() {
       alert('Failed to copy QR code to clipboard')
     }
   }
-  return (    <div className="qr-app-root">
+  return (    
+  <div className="qr-app-root">
       <header className="qr-header">
         <h1 className="qr-title">Free QR Code Generator</h1>
         <div className="qr-badges-row">
@@ -221,7 +218,7 @@ function App() {
         
         <div className="qr-content-container">
           <div className="qr-left-panel">
-            {/* Enter Content Section */}
+            {}
             <div className="qr-section">              <div 
                 className="qr-section-header"
                 onClick={() => setContentExpanded(!contentExpanded)}
@@ -231,7 +228,8 @@ function App() {
                 <div className={`dropdown-arrow ${contentExpanded ? 'expanded' : ''}`}>▼</div>
               </div>
               <div className={`qr-section-content ${contentExpanded ? 'expanded' : 'collapsed'}`}>
-                <div className="content-wrapper">                  <QRFormContent 
+                <div className="content-wrapper">                  
+                  <QRFormContent 
                     activeTab={activeTab} 
                     onDataChange={(data) => handleDataChange(data, activeTab)}
                   />
@@ -239,8 +237,9 @@ function App() {
               </div>
             </div>
 
-            {/* Section Colors */}
-            <div className="qr-section">              <div 
+            {}
+            <div className="qr-section">              
+              <div 
                 className="qr-section-header"
                 onClick={() => setColorsExpanded(!colorsExpanded)}
               >
@@ -273,7 +272,8 @@ function App() {
             </div>
 
             {/* Add Logo Image */}
-            <div className="qr-section">              <div 
+            <div className="qr-section">
+              <div
                 className="qr-section-header"
                 onClick={() => setLogoExpanded(!logoExpanded)}
               >
@@ -289,7 +289,8 @@ function App() {
             </div>
 
             {/* Customize Design */}
-            <div className="qr-section">              <div 
+            <div className="qr-section">              
+              <div 
                 className="qr-section-header"
                 onClick={() => setDesignExpanded(!designExpanded)}
               >
@@ -319,7 +320,7 @@ function App() {
                 <div ref={qrRef} className="qr-code-container" onClick={openLightbox} style={{ cursor: 'pointer' }}>
                   <QRCode
                     value={qrData}
-                    size={293} // Always fixed size 293px for display
+                    size={293} 
                     bgColor={bgColor}
                     fgColor={fgColor}
                     level={errorLevel}
@@ -358,7 +359,7 @@ function App() {
           </div>
         </div>
       </div>
-        {/* Lightbox Modal */}
+        {}
       {lightboxOpen && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
           <div className="lightbox-container" onClick={(e) => e.stopPropagation()}>
@@ -372,7 +373,7 @@ function App() {
             >
               <QRCode
                 value={qrData}
-                size={500} // Fixed preview size
+                size={500} 
                 bgColor={bgColor}
                 fgColor={fgColor}
                 level={errorLevel}
@@ -381,10 +382,10 @@ function App() {
             
             <div className="lightbox-controls">
               <button onClick={zoomOut} className="control-btn" title="Zoom Out">
-                🔍➖
+                ➖
               </button>
               <button onClick={zoomIn} className="control-btn" title="Zoom In">
-                🔍➕
+                ➕
               </button>
               <button onClick={rotateLeft} className="control-btn" title="Rotate Left">
                 ↶
@@ -403,7 +404,8 @@ function App() {
               </button>
             </div>
           </div>
-        </div>      )}      {/* What type of QR Code section */}
+        </div>      )}      
+        {}
       <div className="info-section">
         <div className="info-container">
           <h2 className="info-title">What type of QR Code can I create?</h2>
@@ -461,7 +463,8 @@ function App() {
       {/* FAQ section */}
       <div className="faq-section">
         <div className="faq-container">
-          <h2 className="faq-title">Frequently Asked Questions</h2>          <div className="faq-list">
+          <h2 className="faq-title">Frequently Asked Questions</h2>          
+          <div className="faq-list">
             <div className={`faq-item ${activeFAQ.includes(0) ? 'active' : ''}`}>
               <div className="faq-question" onClick={() => toggleFAQ(0)}>
                 <h3>What is a QR code?</h3>
@@ -579,9 +582,6 @@ function QRFormContent({ activeTab, onDataChange }) {
 
   const searchLocation = async (query) => {
     if (!query) return
-    
-    // Simple geocoding simulation - in real app you'd use Google Geocoding API
-    // For demo, we'll just set some default coordinates for popular cities
     const cityCoords = {
       'san francisco': { lat: 37.7749, lng: -122.4194 },
       'new york': { lat: 40.7128, lng: -74.0060 },

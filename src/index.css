@@ -113,3 +113,431 @@ a:hover {
   background: rgba(79, 172, 254, 0.3);
   color: #2d3748;
 }
+
+/* Modern pill-shaped tabbar redesign matching Ant Design style */
+.qr-tabbar {
+  display: flex;
+  gap: 0;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.qr-tabbar-btn {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 400;
+  font-size: 14px;
+  padding: 12px 16px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  margin: 0 4px -1px 4px;
+  white-space: nowrap;
+}
+
+.qr-tabbar-btn.active {
+  background: #e91e63;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 6px;
+  margin: 4px 4px 3px 4px;
+  box-shadow: 0 2px 4px rgba(233, 30, 99, 0.2);
+}
+
+.qr-tabbar-btn:not(.active):hover {
+  background: rgba(233, 30, 99, 0.1);
+  color: #e91e63;
+}
+
+/* Wrapper container to match the reference design */
+.qr-main-container {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Section container for accordion groups */
+.qr-section {
+  margin-bottom: 16px;
+}
+
+/* Override existing accordion styles to match the new wrapper */
+.qr-section-header {
+  background-color: #fff ;
+  border: 2px solid #d8d6de ;
+  border-radius: 10px ;
+  cursor: pointer ;
+  display: flex ;
+  height: 3.5rem ;
+  position: relative ;
+  align-items: center ;
+  padding: 0 24px ;
+  margin-bottom: 4px ;
+  transition: all 0.2s ease ;
+}
+
+.qr-section-header:hover,
+.qr-section.expanded .qr-section-header {
+  border: 2px solid #1d1d1d ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+}
+
+.qr-section.expanded .qr-section-header {
+  border-bottom: none ;
+  border-radius: 10px 10px 0 0 ;
+  margin-bottom: 0 ;
+}
+
+/* Section icon styling */
+.section-icon {
+  width: 40px ;
+  height: 40px ;
+  background: #8e8e8e ;
+  border-radius: 50% ;
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+  margin-right: 16px ;
+  font-size: 20px ;
+  color: white ;
+  flex-shrink: 0 ;
+}
+
+.qr-section.expanded .section-icon {
+  background: #e91e63 ;
+}
+
+/* Section text */
+.qr-section-header span {
+  flex: 1 ;
+  font-weight: 600 ;
+  color: #1d1d1d ;
+  font-size: 16px ;
+}
+
+/* Dropdown arrow */
+.dropdown-arrow {
+  font-size: 14px ;
+  color: #B9B9C3 ;
+  transition: transform 0.3s ease ;
+  margin-left: auto ;
+}
+
+.qr-section.expanded .dropdown-arrow {
+  transform: rotate(180deg) ;
+}
+
+/* Updated section content to connect with header */
+.qr-section-content {
+  overflow: hidden ;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ;
+  background: #fff ;
+  border-radius: 0 0 10px 10px ;
+  opacity: 0 ;
+  max-height: 0 ;
+  transform: translateY(-10px) ;
+}
+
+.qr-section.expanded .qr-section-content {
+  background: #fff ;
+  border: 2px solid #1d1d1d ;
+  border-top: none ;
+  border-radius: 0 0 10px 10px ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+  margin-top: 0 ;
+  overflow: visible ;
+  max-height: 800px ;
+  opacity: 1 ;
+  transform: translateY(0) ;
+}
+
+.qr-section-content.collapsed {
+  max-height: 0 ;
+  opacity: 0 ;
+  border: none ;
+  box-shadow: none ;
+  margin-top: 0 ;
+  overflow: hidden ;
+}
+
+/* Content wrapper */
+.content-wrapper {
+  padding: 24px ;
+  transform: translateY(0) ;
+  opacity: 1 ;
+  transition: all 0.3s ease 0.1s ;
+}
+
+/* Staggered animation for content items */
+.qr-section.expanded .content-wrapper > * {
+  animation: slideInFade 0.4s ease forwards ;
+  opacity: 0 ;
+  transform: translateY(15px) ;
+}
+
+.qr-section.expanded .content-wrapper > *:nth-child(1) {
+  animation-delay: 0.1s ;
+}
+
+.qr-section.expanded .content-wrapper > *:nth-child(2) {
+  animation-delay: 0.15s ;
+}
+
+.qr-section.expanded .content-wrapper > *:nth-child(3) {
+  animation-delay: 0.2s ;
+}
+
+@keyframes slideInFade {
+  to {
+    opacity: 1 ;
+    transform: translateY(0) ;
+  }
+}
+
+/* Complete layout overhaul to match reference design */
+.ant-tabs-content-holder {
+  display: flex ;
+  flex-direction: row ;
+  border: 2px solid #1d1d1d ;
+  border-radius: 8px ;
+  min-height: 600px ;
+  padding: 0 ;
+}
+
+/* Left side - Form content */
+.setting__section {
+  background-color: #f5f5f5 ;
+  border-radius: 8px 0 0 8px ;
+  padding: 2rem ;
+  width: 50% ;
+  border-right: 2px solid #1d1d1d ;
+  margin: 0 ;
+}
+
+/* Right side - Preview section */
+.preview__section {
+  width: 50% ;
+  padding: 2rem ;
+  display: flex ;
+  flex-direction: column ;
+  align-items: center ;
+  justify-content: flex-start ;
+  background: #fff ;
+  border-radius: 0 8px 8px 0 ;
+}
+
+/* QR Preview image styling */
+.preview__section .image {
+  margin-bottom: 1rem ;
+}
+
+.preview__section .ant-image {
+  border: 4px solid #e91e63 ;
+  border-radius: 16px ;
+  padding: 16px ;
+  box-shadow: 0 2px 12px rgba(233,30,99,0.08) ;
+}
+
+/* Reset button */
+.button-reset {
+  color: #e91e63 ;
+  font-size: 15px ;
+  text-decoration: underline ;
+  margin-bottom: 20px ;
+  background: none ;
+  border: none ;
+}
+
+/* Size slider section */
+.range-width {
+  width: 100% ;
+  margin-bottom: 20px ;
+}
+
+.range-width .title {
+  text-align: center ;
+  color: #ad1457 ;
+  font-size: 16px ;
+  font-weight: 600 ;
+  margin-bottom: 16px ;
+}
+
+/* Button group styling */
+.button-group {
+  width: 100% ;
+  display: flex ;
+  flex-direction: column ;
+  gap: 12px ;
+}
+
+.btn-create {
+  background: #e91e63 ;
+  color: #fff ;
+  border: none ;
+  font-weight: 700 ;
+  border-radius: 8px ;
+  padding: 14px ;
+}
+
+.btn-download {
+  background: #fce4ec ;
+  color: #e91e63 ;
+  border: 1.5px solid #f8bbd0 ;
+  font-weight: 700 ;
+  border-radius: 8px ;
+  padding: 14px ;
+}
+
+/* Accordion header - expense__header styling */
+.expense__header {
+  background-color: #fff ;
+  border: 2px solid #d8d6de ;
+  border-radius: 10px ;
+  cursor: pointer ;
+  display: flex ;
+  height: 3.5rem ;
+  position: relative ;
+  align-items: center ;
+  padding: 0 24px ;
+  margin-bottom: 4px ;
+  transition: all 0.2s ease ;
+}
+
+.expense__header--active,
+.expense__header:hover {
+  border: 2px solid #1d1d1d ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+}
+
+/* Icon styling */
+.prefix__icon {
+  width: 40px ;
+  height: 40px ;
+  background: #8e8e8e ;
+  border-radius: 50% ;
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+  margin-right: 16px ;
+  flex-shrink: 0 ;
+}
+
+.prefix__icon.prefix--active {
+  background: #e91e63 ;
+}
+
+.expense__text {
+  flex: 1 ;
+  font-weight: 600 ;
+  color: #1d1d1d ;
+  font-size: 16px ;
+}
+
+.expense__icon {
+  margin-left: auto ;
+  transition: transform 0.3s ease ;
+}
+
+.expense__icon.rotate_open {
+  transform: rotate(180deg) ;
+}
+
+/* Collapse content styling with smooth animations */
+.ant-collapse-content {
+  overflow: hidden ;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ;
+  background: #fff ;
+  border-radius: 0 0 10px 10px ;
+  opacity: 0 ;
+  max-height: 0 ;
+  transform: translateY(-10px) ;
+}
+
+.ant-collapse-content-active {
+  background: #fff ;
+  border: 2px solid #1d1d1d ;
+  border-top: none ;
+  border-radius: 0 0 10px 10px ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+  margin-top: -4px ;
+  opacity: 1 ;
+  max-height: 800px ;
+  transform: translateY(0) ;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ;
+}
+
+.expense__content {
+  padding: 24px ;
+  transform: translateY(0) ;
+  opacity: 1 ;
+  transition: all 0.3s ease 0.1s ;
+}
+
+/* Fix for arrow icon rotation */
+.expense__icon svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) ;
+}
+
+.ant-collapse-item:not(.ant-collapse-item-active) .expense__icon {
+  transform: rotate(0deg) ;
+}
+
+.ant-collapse-item-active .expense__icon {
+  transform: rotate(180deg) ;
+}
+
+/* Enhanced accordion header states */
+.ant-collapse-item:not(.ant-collapse-item-active) .expense__header {
+  border: 2px solid #d8d6de ;
+  box-shadow: none ;
+  background-color: #fff ;
+}
+
+.ant-collapse-item:not(.ant-collapse-item-active) .expense__header:hover {
+  border: 2px solid #1d1d1d ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+}
+
+.ant-collapse-item-active .expense__header {
+  border: 2px solid #1d1d1d ;
+  box-shadow: 3px 3px 0 #1d1d1d ;
+  border-bottom: none ;
+  border-radius: 10px 10px 0 0 ;
+}
+
+/* Staggered animation for content items */
+.expense__content > * {
+  animation: slideInFade 0.4s ease forwards ;
+  opacity: 0 ;
+  transform: translateY(15px) ;
+}
+
+.expense__content > *:nth-child(1) {
+  animation-delay: 0.1s ;
+}
+
+.expense__content > *:nth-child(2) {
+  animation-delay: 0.15s ;
+}
+
+.expense__content > *:nth-child(3) {
+  animation-delay: 0.2s ;
+}
+
+@keyframes slideInFade {
+  to {
+    opacity: 1 ;
+    transform: translateY(0) ;
+  }
+}
