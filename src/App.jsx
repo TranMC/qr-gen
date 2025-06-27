@@ -452,48 +452,39 @@ function App() {
           <p className="info-subtitle">QR Codes are entirely free and come with no expiry or scan limits</p>
           <div className="qr-types-grid">
             <div className="qr-type-card">
-              <div className="qr-type-icon">🌐</div>
-              <h3>URL</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* URL SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span><h3>URL</h3></div>
               <p>Use this type to open a link to a webpage, social channel, contact form, or Youtube</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">📝</div>
-              <h3>Text</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Text SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h16M4 18h7"/></svg></span><h3>Text</h3></div>
               <p>Use this type to display text in any language, with no limit on characters</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">✉️</div>
-              <h3>Email</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Email SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></span><h3>Email</h3></div>
               <p>Use this type to send an email to a specific person with a pre-set message</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">📞</div>
-              <h3>Phone</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Phone SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0 1 22 16.92z"/></svg></span><h3>Phone</h3></div>
               <p>Use this type to call a contact directly, no need to type the phone number</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">📍</div>
-              <h3>Location</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Location SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span><h3>Location</h3></div>
               <p>Use this type to connect a location without typing the address</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">📶</div>
-              <h3>Wifi</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Wifi SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span><h3>Wifi</h3></div>
               <p>Use this type to connect a Wifi network without typing the password</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">👤</div>
-              <h3>Business profile</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Business SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M2 13h20"/></svg></span><h3>Business profile</h3></div>
               <p>Use this type to connect your business profile or website</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">🍽️</div>
-              <h3>Restaurant menu</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* Menu SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span><h3>Restaurant menu</h3></div>
               <p>Use this type to connect your restaurant menu</p>
             </div>
             <div className="qr-type-card">
-              <div className="qr-type-icon">⋯</div>
-              <h3>More to come</h3>
+              <div className="qr-type-row"><span className="qr-type-icon">{/* More SVG */}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span><h3>More to come</h3></div>
               <p>Many features and updates are upcoming and we're actively working on them</p>
             </div>
           </div>
@@ -602,7 +593,7 @@ function QRFormContent({ activeTab, onDataChange }) {
   
   useEffect(() => {
     const defaults = {
-      URL: { url: 'https://dingdoong.io/' },
+      URL: { url: '' },
       FACEBOOK: { facebook: '' },
       TEXT: { text: '' },
       EMAIL: { email: '', subject: '', body: '' },  
@@ -650,7 +641,7 @@ function QRFormContent({ activeTab, onDataChange }) {
             <input
               type="url"
               placeholder="https://dingdoong.io/"
-              value={formData.url || 'https://dingdoong.io/'}
+              value={formData.url || ''}
               onChange={(e) => handleInputChange('url', e.target.value)}
             />
           </div>
