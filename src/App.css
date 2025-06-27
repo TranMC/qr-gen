@@ -348,59 +348,63 @@ body {
 
 .qr-preview-section {
   width: 100%;
-  max-width: 400px;
-  position: relative;
+  max-width: 340px;
+  margin: 0 auto;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
 }
 
 .reset-btn {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 310px;
+  right: 154px;
   background: none;
   border: none;
-  color: #6c757d;
+  color: #aaa;
   font-size: 14px;
   cursor: pointer;
-  padding: 8px;
-  transition: color 0.2s ease;
+  padding: 2px 8px;
+  z-index: 2;
+  transition: color 0.2s;
 }
 
 .reset-btn:hover {
-  color: #495057;
-}
-:root {
-  --primary-color: #e91e63;
-  --primary-hover: #d81b60;
-  --primary-light: #fce4ec;
-  --secondary-color: #f8f9fa;
-  --text-color: #333;
-  --text-light: #6c757d;
-  --border-color: #e9ecef;
-  --white: #ffffff;
-  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
-  --border-radius: 8px;
-  --border-radius-large: 12px;
+  color: #e91e63;
 }
 
-/* QR display */
 .qr-display {
+  width: 280px;
+  height: 280px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 40px 0;
+  position: relative;
+  padding: 20px;
+  margin: 0 auto 24px auto;
+  transition: box-shadow 0.2s;
+}
+
+.qr-display:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
 }
 
 .qr-code-container {
-  background: var(--white);
-  padding: 20px;
-  border-radius: var(--border-radius-large);
-  box-shadow: var(--shadow-medium);
-  display: inline-block;
-  position: relative;
-  transition: transform 0.2s ease;
-  border: 2px solid var(--border-color);
+  width: 220px;
+  height: 220px;
+  display: block;
+  background: none;
+  margin: 0 auto;
+  padding: 0;
+  border-radius: 16px;
+  box-shadow: none;
+  border: none;
 }
-
 
 .qr-code-container:hover {
   transform: scale(1.02);
@@ -1310,4 +1314,22 @@ select option {
 .clear-logo-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .qr-preview-section {
+    max-width: 100%;
+    gap: 20px;
+  }
+  .qr-display {
+    width: 98vw;
+    max-width: 98vw;
+    height: auto;
+    min-height: 180px;
+    padding: 10px;
+  }
+  .qr-code-container {
+    width: 140px;
+    height: 140px;
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import QRCode from 'react-qr-code'
 import html2canvas from 'html2canvas'
+import QRCodeStyling from 'qr-code-styling'
 import './App.css';
 
 const tabs = [
@@ -33,6 +34,14 @@ function App() {
   const [lightboxZoom, setLightboxZoom] = useState(1)
   const [lightboxRotation, setLightboxRotation] = useState(0)
   const [activeFAQ, setActiveFAQ] = useState([])
+
+  const [colorMode, setColorMode] = useState('single'); // 'single', 'gradient', 'eye'
+  const [fgColor2, setFgColor2] = useState('#5dde9f');
+  const [gradientType, setGradientType] = useState('radial'); // 'linear', 'radial'
+  const [eyeColor, setEyeColor] = useState('#000000');
+
+  const qrStyling = useRef(null);
+  const lightboxQrStyling = useRef(null);
 
   const toggleFAQ = (index) => {
     setActiveFAQ((prev) =>
@@ -183,6 +192,92 @@ function App() {
       alert('Failed to copy QR code to clipboard')
     }
   }
+
+  const handleSwapColors = () => {
+    const tmp = fgColor;
+    setFgColor(fgColor2);
+    setFgColor2(tmp);
+  };
+
+  // QR code ngoài
+  useEffect(() => {
+    const options = {
+      width: 252,
+      height: 252,
+      data: qrData,
+      image: undefined,
+      dotsOptions: {},
+      backgroundOptions: { color: bgColor },
+      cornersSquareOptions: {},
+      cornersDotOptions: {},
+    };
+    if (colorMode === 'single') {
+      options.dotsOptions.color = fgColor;
+    } else if (colorMode === 'gradient') {
+      options.dotsOptions.gradient = {
+        type: gradientType,
+        colorStops: [
+          { offset: 0, color: fgColor },
+          { offset: 1, color: fgColor2 }
+        ]
+      };
+    }
+    if (colorMode === 'eye') {
+      options.cornersSquareOptions.color = eyeColor;
+      options.cornersDotOptions.color = eyeColor;
+      options.dotsOptions.color = fgColor;
+    }
+    if (!qrStyling.current) {
+      qrStyling.current = new QRCodeStyling(options);
+    } else {
+      qrStyling.current.update(options);
+    }
+    if (qrRef.current) {
+      qrRef.current.innerHTML = '';
+      qrStyling.current.append(qrRef.current);
+    }
+  }, [qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeColor]);
+
+  // QR code preview (lightbox)
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const options = {
+      width: 500,
+      height: 500,
+      data: qrData,
+      image: undefined,
+      dotsOptions: {},
+      backgroundOptions: { color: bgColor },
+      cornersSquareOptions: {},
+      cornersDotOptions: {},
+    };
+    if (colorMode === 'single') {
+      options.dotsOptions.color = fgColor;
+    } else if (colorMode === 'gradient') {
+      options.dotsOptions.gradient = {
+        type: gradientType,
+        colorStops: [
+          { offset: 0, color: fgColor },
+          { offset: 1, color: fgColor2 }
+        ]
+      };
+    }
+    if (colorMode === 'eye') {
+      options.cornersSquareOptions.color = eyeColor;
+      options.cornersDotOptions.color = eyeColor;
+      options.dotsOptions.color = fgColor;
+    }
+    if (!lightboxQrStyling.current) {
+      lightboxQrStyling.current = new QRCodeStyling(options);
+    } else {
+      lightboxQrStyling.current.update(options);
+    }
+    if (lightboxQrRef.current) {
+      lightboxQrRef.current.innerHTML = '';
+      lightboxQrStyling.current.append(lightboxQrRef.current);
+    }
+  }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeColor]);
+
   return (    
   <div className="qr-app-root">
       <header className="qr-header">
@@ -249,22 +344,49 @@ function App() {
               </div>
               <div className={`qr-section-content ${colorsExpanded ? 'expanded' : 'collapsed'}`}>
                 <div className="content-wrapper">
-                  <div className="color-options">
-                    <div className="color-group">
-                      <label>Foreground Color:</label>
-                      <input
-                        type="color"
-                        value={fgColor}
-                        onChange={(e) => setFgColor(e.target.value)}
-                      />
+                  <div style={{marginBottom: 18}}>
+                    <label style={{fontWeight:600, marginBottom:8, display:'block'}}>Foreground color</label>
+                    <div style={{display:'flex', gap:24, alignItems:'center', marginBottom:16}}>
+                      <label><input type="radio" name="fgmode" checked={colorMode==='single'} onChange={()=>setColorMode('single')} /> Single color</label>
+                      <label><input type="radio" name="fgmode" checked={colorMode==='gradient'} onChange={()=>setColorMode('gradient')} /> Color gradient</label>
+                      <label><input type="checkbox" checked={colorMode==='eye'} onChange={()=>setColorMode(colorMode==='eye'?'single':'eye')} /> Custom eye color</label>
                     </div>
-                    <div className="color-group">
-                      <label>Background Color:</label>
-                      <input
-                        type="color"
-                        value={bgColor}
-                        onChange={(e) => setBgColor(e.target.value)}
-                      />
+                    {colorMode==='single' && (
+                      <div style={{display:'flex',alignItems:'center',gap:16}}>
+                        <input type="color" value={fgColor} onChange={e=>setFgColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                        <span style={{fontFamily:'monospace',fontSize:16}}>{fgColor}</span>
+                      </div>
+                    )}
+                    {colorMode==='gradient' && (
+                      <div style={{display:'flex',alignItems:'center',gap:16}}>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:4}}>
+                          <input type="color" value={fgColor} onChange={e=>setFgColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                          <span style={{fontFamily:'monospace',fontSize:16}}>{fgColor}</span>
+                        </div>
+                        <button type="button" onClick={handleSwapColors} style={{background:'none',border:'none',fontSize:22,cursor:'pointer',color:'#e24646'}}>↔</button>
+                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:4}}>
+                          <input type="color" value={fgColor2} onChange={e=>setFgColor2(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                          <span style={{fontFamily:'monospace',fontSize:16}}>{fgColor2}</span>
+                        </div>
+                        <select value={gradientType} onChange={e=>setGradientType(e.target.value)} style={{height:40,borderRadius:8,border:'1px solid #ccc',padding:'0 12px',fontSize:16}}>
+                          <option value="linear">Linear Gradient</option>
+                          <option value="radial">Radial Gradient</option>
+                        </select>
+                      </div>
+                    )}
+                    {colorMode==='eye' && (
+                      <div style={{display:'flex',alignItems:'center',gap:16,marginTop:12}}>
+                        <label style={{fontWeight:500}}>Eye color</label>
+                        <input type="color" value={eyeColor} onChange={e=>setEyeColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                        <span style={{fontFamily:'monospace',fontSize:16}}>{eyeColor}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div style={{marginTop:18}}>
+                    <label style={{fontWeight:600, marginBottom:8, display:'block'}}>Background color</label>
+                    <div style={{display:'flex',alignItems:'center',gap:16}}>
+                      <input type="color" value={bgColor} onChange={e=>setBgColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                      <span style={{fontFamily:'monospace',fontSize:16}}>{bgColor}</span>
                     </div>
                   </div>
                 </div>
@@ -356,16 +478,8 @@ function App() {
           
           <div className="qr-right-panel">
             <div className="qr-preview-section">
-              <div className="qr-display">
-                <div ref={qrRef} className="qr-code-container" onClick={openLightbox} style={{ cursor: 'pointer' }}>
-                  <QRCode
-                    value={qrData}
-                    size={293} 
-                    bgColor={bgColor}
-                    fgColor={fgColor}
-                    level={errorLevel}
-                  />
-                </div>
+              <div className="qr-display" style={{ width: 352, height: 352, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div ref={qrRef} className="qr-code-container" style={{ width: 252, height: 252, cursor: 'pointer' }} onClick={openLightbox} />
                 <button className="reset-btn" onClick={resetQR}>Reset</button>
               </div>
               
@@ -406,19 +520,8 @@ function App() {
             <div 
               ref={lightboxQrRef}
               className="lightbox-qr-display"
-              style={{
-                transform: `scale(${lightboxZoom}) rotate(${lightboxRotation}deg)`,
-                transition: 'transform 0.3s ease'
-              }}
-            >
-              <QRCode
-                value={qrData}
-                size={500} 
-                bgColor={bgColor}
-                fgColor={fgColor}
-                level={errorLevel}
-              />
-            </div>
+              style={{ width: 500, height: 500, margin: '0 auto' }}
+            />
             
             <div className="lightbox-controls">
               <button onClick={zoomOut} className="control-btn" title="Zoom Out">
