@@ -13,13 +13,14 @@ body {
 
 .qr-app-root {
   min-height: 100vh;
-  padding: 20px;
+  margin-top: 32px;
+  /* padding: 20px; */
 }
 
 /* Header styles */
 .qr-header {
   background: white;
-  padding: 40px 20px;
+  padding: 20px 20px 40px 20px;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -359,8 +360,8 @@ body {
 
 .reset-btn {
   position: absolute;
-  top: 310px;
-  right: 154px;
+  top: 16px;
+  right: 20px;
   background: none;
   border: none;
   color: #aaa;
@@ -549,8 +550,8 @@ body {
   background: var(--primary-color);
   color: var(--white);
   border: none;
-  padding: 14px 24px;
-  border-radius: var(--border-radius);
+  padding: 1px 29px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -911,7 +912,7 @@ select option {
 .info-section {
   background: #f4c430;
   padding: 60px 0 60px 0;
-  margin-top: 0;
+  margin-top: 70px;
   border-radius: 0 0 24px 24px;
 }
 
@@ -1177,7 +1178,7 @@ select option {
 
 /* Logo Upload Section Styles */
 .logo-upload-section {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .logo-upload-header {
@@ -1190,18 +1191,18 @@ select option {
 }
 
 .upload-container {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .upload-area {
+  padding: 18px;
+  min-height: 80px;
   border: 2px dashed #e1e5e9;
   border-radius: 8px;
   background-color: #fafbfc;
-  padding: 30px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;

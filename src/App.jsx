@@ -38,10 +38,18 @@ function App() {
   const [colorMode, setColorMode] = useState('single'); // 'single', 'gradient', 'eye'
   const [fgColor2, setFgColor2] = useState('#5dde9f');
   const [gradientType, setGradientType] = useState('radial'); // 'linear', 'radial'
-  const [eyeColor, setEyeColor] = useState('#000000');
+  const [eyeFrameColor, setEyeFrameColor] = useState('#000000');
+  const [eyeBallColor, setEyeBallColor] = useState('#000000');
+  const [bodyShape, setBodyShape] = useState('square');
+  const [eyeBallShape, setEyeBallShape] = useState('square');
 
   const qrStyling = useRef(null);
   const lightboxQrStyling = useRef(null);
+
+  const [resetForm, setResetForm] = useState(0);
+  const [useCustomEye, setUseCustomEye] = useState(false);
+
+  const [showQR, setShowQR] = useState(false);
 
   const toggleFAQ = (index) => {
     setActiveFAQ((prev) =>
@@ -53,6 +61,7 @@ function App() {
 
   const handleDataChange = useCallback((data, tab) => {
     setQrData(generateQRData(data, tab))
+    setShowQR(false)
   }, [])
 
   const generateQRData = (formData, tab) => {
@@ -123,10 +132,19 @@ function App() {
     setSize(480)
     setBgColor('#ffffff')
     setFgColor('#e91e63')
+    setFgColor2('#5dde9f')
     setErrorLevel('M')
+    setEyeFrameColor('#000000')
+    setEyeBallColor('#000000')
+    setBodyShape('square')
+    setEyeBallShape('square')
+    setColorMode('single')
+    setUseCustomEye(false)
+    setResetForm(r => r + 1)
+    setShowQR(false)
   }
   const createQRCode = () => {
-    console.log('QR Code created!')
+    setShowQR(true)
   }  
   const openLightbox = () => {
     setLightboxOpen(true)
@@ -199,17 +217,27 @@ function App() {
     setFgColor2(tmp);
   };
 
+  // Đồng bộ màu khi đổi mode
+  useEffect(() => {
+    if (colorMode === 'gradient') {
+      setFgColor2(fgColor);
+    } else if (colorMode === 'single') {
+      setFgColor(fgColor);
+    }
+  }, [colorMode]);
+
   // QR code ngoài
   useEffect(() => {
+    if (!showQR) return;
     const options = {
       width: 252,
       height: 252,
       data: qrData,
       image: undefined,
-      dotsOptions: {},
+      dotsOptions: { type: bodyShape },
       backgroundOptions: { color: bgColor },
-      cornersSquareOptions: {},
-      cornersDotOptions: {},
+      cornersSquareOptions: useCustomEye ? { color: eyeFrameColor } : {},
+      cornersDotOptions: { color: useCustomEye ? eyeBallColor : undefined, type: eyeBallShape },
     };
     if (colorMode === 'single') {
       options.dotsOptions.color = fgColor;
@@ -222,9 +250,7 @@ function App() {
         ]
       };
     }
-    if (colorMode === 'eye') {
-      options.cornersSquareOptions.color = eyeColor;
-      options.cornersDotOptions.color = eyeColor;
+    if (useCustomEye) {
       options.dotsOptions.color = fgColor;
     }
     if (!qrStyling.current) {
@@ -236,7 +262,7 @@ function App() {
       qrRef.current.innerHTML = '';
       qrStyling.current.append(qrRef.current);
     }
-  }, [qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeColor]);
+  }, [showQR, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
 
   // QR code preview (lightbox)
   useEffect(() => {
@@ -246,10 +272,10 @@ function App() {
       height: 500,
       data: qrData,
       image: undefined,
-      dotsOptions: {},
+      dotsOptions: { type: bodyShape },
       backgroundOptions: { color: bgColor },
-      cornersSquareOptions: {},
-      cornersDotOptions: {},
+      cornersSquareOptions: useCustomEye ? { color: eyeFrameColor } : {},
+      cornersDotOptions: { color: useCustomEye ? eyeBallColor : undefined, type: eyeBallShape },
     };
     if (colorMode === 'single') {
       options.dotsOptions.color = fgColor;
@@ -262,9 +288,7 @@ function App() {
         ]
       };
     }
-    if (colorMode === 'eye') {
-      options.cornersSquareOptions.color = eyeColor;
-      options.cornersDotOptions.color = eyeColor;
+    if (useCustomEye) {
       options.dotsOptions.color = fgColor;
     }
     if (!lightboxQrStyling.current) {
@@ -276,7 +300,7 @@ function App() {
       lightboxQrRef.current.innerHTML = '';
       lightboxQrStyling.current.append(lightboxQrRef.current);
     }
-  }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeColor]);
+  }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
 
   return (    
   <div className="qr-app-root">
@@ -327,6 +351,7 @@ function App() {
                   <QRFormContent 
                     activeTab={activeTab} 
                     onDataChange={(data) => handleDataChange(data, activeTab)}
+                    resetForm={resetForm}
                   />
                 </div>
               </div>
@@ -349,7 +374,7 @@ function App() {
                     <div style={{display:'flex', gap:24, alignItems:'center', marginBottom:16}}>
                       <label><input type="radio" name="fgmode" checked={colorMode==='single'} onChange={()=>setColorMode('single')} /> Single color</label>
                       <label><input type="radio" name="fgmode" checked={colorMode==='gradient'} onChange={()=>setColorMode('gradient')} /> Color gradient</label>
-                      <label><input type="checkbox" checked={colorMode==='eye'} onChange={()=>setColorMode(colorMode==='eye'?'single':'eye')} /> Custom eye color</label>
+                      <label><input type="checkbox" checked={useCustomEye} onChange={()=>setUseCustomEye(v=>!v)} /> Custom eye color</label>
                     </div>
                     {colorMode==='single' && (
                       <div style={{display:'flex',alignItems:'center',gap:16}}>
@@ -374,11 +399,18 @@ function App() {
                         </select>
                       </div>
                     )}
-                    {colorMode==='eye' && (
-                      <div style={{display:'flex',alignItems:'center',gap:16,marginTop:12}}>
-                        <label style={{fontWeight:500}}>Eye color</label>
-                        <input type="color" value={eyeColor} onChange={e=>setEyeColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
-                        <span style={{fontFamily:'monospace',fontSize:16}}>{eyeColor}</span>
+                    {useCustomEye && (
+                      <div style={{display:'flex',flexDirection:'column',gap:12,marginTop:12}}>
+                        <div style={{display:'flex',alignItems:'center',gap:16}}>
+                          <label style={{fontWeight:500}}>Eye frame color</label>
+                          <input type="color" value={eyeFrameColor} onChange={e=>setEyeFrameColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                          <span style={{fontFamily:'monospace',fontSize:16}}>{eyeFrameColor}</span>
+                        </div>
+                        <div style={{display:'flex',alignItems:'center',gap:16}}>
+                          <label style={{fontWeight:500}}>Eye ball color</label>
+                          <input type="color" value={eyeBallColor} onChange={e=>setEyeBallColor(e.target.value)} style={{width:40,height:40,borderRadius:8,border:'1px solid #ccc'}} />
+                          <span style={{fontFamily:'monospace',fontSize:16}}>{eyeBallColor}</span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -463,6 +495,25 @@ function App() {
               <div className={`qr-section-content ${designExpanded ? 'expanded' : 'collapsed'}`}>
                 <div className="content-wrapper">
                   <div className="design-options">
+                    <label>Body shape:</label>
+                    <select value={bodyShape} onChange={e=>setBodyShape(e.target.value)}>
+                      <option value="square">Square</option>
+                      <option value="dots">Dots</option>
+                      <option value="rounded">Rounded</option>
+                      <option value="extra-rounded">Extra Rounded</option>
+                      <option value="classy">Classy</option>
+                      <option value="classy-rounded">Classy Rounded</option>
+                    </select>
+                  </div>
+                  <div className="design-options" style={{marginTop:12}}>
+                    <label>Eye ball shape:</label>
+                    <select value={eyeBallShape} onChange={e=>setEyeBallShape(e.target.value)}>
+                      <option value="square">Square</option>
+                      <option value="circle">Circle</option>
+                      <option value="dot">Dot</option>
+                    </select>
+                  </div>
+                  <div className="design-options" style={{marginTop:12}}>
                     <label>Error Correction:</label>
                     <select value={errorLevel} onChange={(e) => setErrorLevel(e.target.value)}>
                       <option value="L">Low (7%)</option>
@@ -479,7 +530,9 @@ function App() {
           <div className="qr-right-panel">
             <div className="qr-preview-section">
               <div className="qr-display" style={{ width: 352, height: 352, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div ref={qrRef} className="qr-code-container" style={{ width: 252, height: 252, cursor: 'pointer' }} onClick={openLightbox} />
+                {showQR && (
+                  <div ref={qrRef} className="qr-code-container" style={{ width: 252, height: 252, cursor: 'pointer' }} onClick={openLightbox} />
+                )}
                 <button className="reset-btn" onClick={resetQR}>Reset</button>
               </div>
               
@@ -691,7 +744,7 @@ function App() {
   );
 }
 
-function QRFormContent({ activeTab, onDataChange }) {
+function QRFormContent({ activeTab, onDataChange, resetForm }) {
   const [formData, setFormData] = useState({})
   
   useEffect(() => {
@@ -707,7 +760,7 @@ function QRFormContent({ activeTab, onDataChange }) {
       'GOOGLE REVIEW': { reviewUrl: '' }
     }
     setFormData({ ...defaults[activeTab] })
-  }, [activeTab])
+  }, [activeTab, resetForm])
   const handleInputChange = (field, value) => {
     const newData = { ...formData, [field]: value }
     setFormData(newData)
@@ -755,7 +808,7 @@ function QRFormContent({ activeTab, onDataChange }) {
       return (
         <div className="form-content">
           <div className="form-group">
-            <label>📘 Facebook URL</label>
+            <label>📘 Your Facebook URL</label>
             <input
               type="url"
               placeholder="https://facebook.com/yourpage"
@@ -851,7 +904,7 @@ function QRFormContent({ activeTab, onDataChange }) {
           
           <div className="map-container">
             <iframe
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14897.585524393065!2d105.81504059271653!3d21.016820098173046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9ef82fed13%3A0x1ee04aa292e377a2!2zVHJ1bmcgdMOibSBDaGnhur91IHBoaW0gUXXhu5FjIGdpYQ!5e0!3m2!1svi!2s!4v1750652701700!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade')}`}
+              src={`https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s,!3m1!1zZXM7!5m1!1zZXM7')}`}
               width="100%"
               height="500"
               style={{ border: 0, borderRadius: '8px' }}
