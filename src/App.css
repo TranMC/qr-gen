@@ -137,29 +137,24 @@ body {
   padding: 16px 20px;
   background: #f8f9fa;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: none;
   user-select: none;
   position: relative;
+  border: 2px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 #1d1d1d;
 }
 
 .qr-section-header:hover {
-  background: #f1f3f4;
-  transform: translateX(2px);
+  background: #f8f9fa;
+  transform: none;
+  border: 2px solid #1d1d1d;
+  box-shadow: 3px 3px 0 #1d1d1d;
 }
 
-.qr-section-header::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: #e91e63;
-  transition: width 0.3s ease;
-}
-
+.qr-section-header::after,
 .qr-section-header:hover::after {
-  width: 3px;
+  width: 0;
 }
 
 .section-icon {
@@ -194,18 +189,21 @@ body {
 
 .qr-section-content {
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
   background: white;
+  transform: scaleY(0.98);
 }
 
 .qr-section-content.collapsed {
   max-height: 0;
   opacity: 0;
+  transform: scaleY(0.98) translateY(-10px);
 }
 
 .qr-section-content.expanded {
   max-height: 2000px;
   opacity: 1;
+  transform: scaleY(1) translateY(0);
 }
 
 /* Debug styles for dropdown sections */
@@ -939,18 +937,53 @@ select option {
   font-weight: 400;
 }
 
+.qr-types-container {
+  width: 1849px;
+  height: 846px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  background: #FFD700;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-types-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.qr-types-subtitle {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
 .qr-types-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  margin-top: 0;
+  width: 100%;
+  justify-content: center;
 }
 
 .qr-type-card {
+  width: 470px;
+  min-width: 470px;
+  max-width: 470px;
+  height: 146px;
+  min-height: 146px;
+  max-height: 146px;
   background: #fff;
-  padding: 32px 24px;
+  padding: 24px 24px;
   border-radius: 16px;
-  text-align: center;
+  text-align: left;
   border: 2px solid #111;
   box-shadow: none;
   transition: box-shadow 0.2s, transform 0.2s;
@@ -958,13 +991,28 @@ select option {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left;
-  min-height: 180px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .qr-type-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  box-shadow: 3px 3px 0 #1d1d1d;
   transform: translateY(-2px) scale(1.02);
+}
+
+.qr-type-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  transition: box-shadow 0.2s;
+  z-index: 2;
+}
+
+.qr-type-card:hover::after {
+  box-shadow: 3px 3px 0 #1d1d1d;
 }
 
 .qr-type-row {
@@ -993,21 +1041,40 @@ select option {
   margin-top: 6px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1500px) {
+  .qr-type-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
   .qr-types-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .qr-types-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
-  .info-title {
-    font-size: 32px;
+  .qr-type-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: 120px;
+    max-height: none;
   }
-  .qr-type-icon {
-    font-size: 28px;
+}
+
+@media (max-width: 1900px) {
+  .qr-types-container {
+    width: 100%;
+    height: auto;
+    min-height: 846px;
   }
 }
 

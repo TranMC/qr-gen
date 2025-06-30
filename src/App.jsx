@@ -51,6 +51,10 @@ function App() {
 
   const [showQR, setShowQR] = useState(false);
 
+  const [locationError, setLocationError] = useState('');
+
+  const [formData, setFormData] = useState({});
+
   const toggleFAQ = (index) => {
     setActiveFAQ((prev) =>
       prev.includes(index)
@@ -77,7 +81,10 @@ function App() {
       case 'PHONE':
         return `tel:${formData.phone}`
       case 'LOCATION':
-        return `geo:${formData.latitude},${formData.longitude}`
+        if (formData.latitude && formData.longitude) {
+          return `https://www.google.com/maps/place/@${formData.latitude},${formData.longitude},15z`;
+        }
+        return ''
       case 'WIFI':
         return `WIFI:T:${formData.security};S:${formData.ssid};P:${formData.password};;`
       case 'VCARD':
@@ -302,6 +309,26 @@ function App() {
     }
   }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
 
+  const searchLocation = async (query) => {
+    setLocationError('');
+    if (!query) return;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const coords = data[0];
+        const newData = { ...formData, latitude: coords.lat, longitude: coords.lon };
+        setFormData(newData);
+        onDataChange(newData);
+        setLocationError('');
+      } else {
+        setLocationError('Không tìm thấy địa điểm phù hợp.');
+      }
+    } catch (err) {
+      setLocationError('Lỗi khi tìm kiếm địa điểm.');
+    }
+  }
+
   return (    
   <div className="qr-app-root">
       <header className="qr-header">
@@ -352,6 +379,8 @@ function App() {
                     activeTab={activeTab} 
                     onDataChange={(data) => handleDataChange(data, activeTab)}
                     resetForm={resetForm}
+                    formData={formData}
+                    setFormData={setFormData}
                   />
                 </div>
               </div>
@@ -531,7 +560,7 @@ function App() {
             <div className="qr-preview-section">
               <div className="qr-display" style={{ width: 352, height: 352, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {showQR && (
-                  <div ref={qrRef} className="qr-code-container" style={{ width: 252, height: 252, cursor: 'pointer' }} onClick={openLightbox} />
+                <div ref={qrRef} className="qr-code-container" style={{ width: 252, height: 252, cursor: 'pointer' }} onClick={openLightbox} />
                 )}
                 <button className="reset-btn" onClick={resetQR}>Reset</button>
               </div>
@@ -744,8 +773,8 @@ function App() {
   );
 }
 
-function QRFormContent({ activeTab, onDataChange, resetForm }) {
-  const [formData, setFormData] = useState({})
+function QRFormContent({ activeTab, onDataChange, resetForm, formData, setFormData }) {
+  const [locationError, setLocationError] = useState('');
   
   useEffect(() => {
     const defaults = {
@@ -760,7 +789,9 @@ function QRFormContent({ activeTab, onDataChange, resetForm }) {
       'GOOGLE REVIEW': { reviewUrl: '' }
     }
     setFormData({ ...defaults[activeTab] })
+    // eslint-disable-next-line
   }, [activeTab, resetForm])
+
   const handleInputChange = (field, value) => {
     const newData = { ...formData, [field]: value }
     setFormData(newData)
@@ -768,23 +799,22 @@ function QRFormContent({ activeTab, onDataChange, resetForm }) {
   }
 
   const searchLocation = async (query) => {
-    if (!query) return
-    const cityCoords = {
-      'san francisco': { lat: 37.7749, lng: -122.4194 },
-      'new york': { lat: 40.7128, lng: -74.0060 },
-      'london': { lat: 51.5074, lng: -0.1278 },
-      'tokyo': { lat: 35.6762, lng: 139.6503 },
-      'paris': { lat: 48.8566, lng: 2.3522 },
-      'ho chi minh': { lat: 10.8231, lng: 106.6297 },
-      'hanoi': { lat: 21.0285, lng: 105.8542 }
-    }
-    
-    const cityKey = query.toLowerCase()
-    const coords = cityCoords[cityKey]
-    
-    if (coords) {
-      handleInputChange('latitude', coords.lat)
-      handleInputChange('longitude', coords.lng)
+    setLocationError('');
+    if (!query) return;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const coords = data[0];
+        const newData = { ...formData, latitude: coords.lat, longitude: coords.lon };
+        setFormData(newData);
+        onDataChange(newData);
+        setLocationError('');
+      } else {
+        setLocationError('Không tìm thấy địa điểm phù hợp.');
+      }
+    } catch (err) {
+      setLocationError('Lỗi khi tìm kiếm địa điểm.');
     }
   }
 
@@ -900,11 +930,16 @@ function QRFormContent({ activeTab, onDataChange, resetForm }) {
             >
               🔍 Search
             </button>
+            {locationError && <div style={{color:'red',marginTop:8}}>{locationError}</div>}
           </div>
           
           <div className="map-container">
             <iframe
-              src={`https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s,!3m1!1zZXM7!5m1!1zZXM7')}`}
+              src={
+                formData.latitude && formData.longitude
+                  ? `https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(formData.longitude)-0.01}%2C${parseFloat(formData.latitude)-0.01}%2C${parseFloat(formData.longitude)+0.01}%2C${parseFloat(formData.latitude)+0.01}&layer=mapnik&marker=${formData.latitude}%2C${formData.longitude}`
+                  : 'https://www.openstreetmap.org/export/embed.html?bbox=105.8%2C20.9%2C106.0%2C21.1&layer=mapnik&marker=21.0285%2C105.8542'
+              }
               width="100%"
               height="500"
               style={{ border: 0, borderRadius: '8px' }}
