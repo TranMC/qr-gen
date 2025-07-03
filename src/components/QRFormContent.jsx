@@ -1,0 +1,82 @@
+import React, { useState, useEffect } from 'react';
+import UrlForm from './QRForms/UrlForm';
+import FacebookForm from './QRForms/FacebookForm';
+import TextForm from './QRForms/TextForm';
+import EmailForm from './QRForms/EmailForm';
+import PhoneForm from './QRForms/PhoneForm';
+import LocationForm from './QRForms/LocationForm';
+import WifiForm from './QRForms/WifiForm';
+import VcardForm from './QRForms/VcardForm';
+import GoogleReviewForm from './QRForms/GoogleReviewForm';
+
+const defaults = {
+  URL: { url: '' },
+  FACEBOOK: { facebook: '' },
+  TEXT: { text: '' },
+  EMAIL: { email: '', subject: '', body: '' },  
+  PHONE: { phone: '' },
+  LOCATION: { latitude: '', longitude: '', address: '', searchLocation: '' },
+  WIFI: { ssid: '', password: '', security: 'WPA' },
+  VCARD: { name: '', organization: '', phone: '', email: '', website: '' },
+  'GOOGLE REVIEW': { reviewUrl: '' }
+};
+
+function QRFormContent({ activeTab, onDataChange, resetForm, formData, setFormData }) {
+  const [locationError, setLocationError] = useState('');
+
+  useEffect(() => {
+    setFormData({ ...defaults[activeTab] })
+    // eslint-disable-next-line
+  }, [activeTab, resetForm])
+
+  const handleInputChange = (field, value) => {
+    const newData = { ...formData, [field]: value }
+    setFormData(newData)
+    onDataChange(newData)
+  }
+
+  const searchLocation = async (query) => {
+    setLocationError('');
+    if (!query) return;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const coords = data[0];
+        const newData = { ...formData, latitude: coords.lat, longitude: coords.lon };
+        setFormData(newData);
+        onDataChange(newData);
+        setLocationError('');
+      } else {
+        setLocationError('Không tìm thấy địa điểm phù hợp.');
+      }
+    } catch (err) {
+      setLocationError('Lỗi khi tìm kiếm địa điểm.');
+    }
+  }
+
+  switch (activeTab) {
+    case 'URL':
+      return <UrlForm formData={formData} onInputChange={handleInputChange} />
+    case 'FACEBOOK':
+      return <FacebookForm formData={formData} onInputChange={handleInputChange} />
+    case 'TEXT':
+      return <TextForm formData={formData} onInputChange={handleInputChange} />
+    case 'EMAIL':
+      return <EmailForm formData={formData} onInputChange={handleInputChange} />
+    case 'PHONE':
+      return <PhoneForm formData={formData} onInputChange={handleInputChange} />
+    case 'LOCATION':
+      return <LocationForm formData={formData} onInputChange={handleInputChange} locationError={locationError} onSearchLocation={searchLocation} />
+    case 'WIFI':
+      return <WifiForm formData={formData} onInputChange={handleInputChange} />
+    case 'VCARD':
+      return <VcardForm formData={formData} onInputChange={handleInputChange} />
+    case 'GOOGLE REVIEW':
+      return <GoogleReviewForm formData={formData} onInputChange={handleInputChange} />
+    default:
+      return <div>Select a tab to start generating QR codes</div>
+  }
+}
+
+export default QRFormContent;
