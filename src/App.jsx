@@ -7,6 +7,9 @@ import LogoOptions from './components/LogoOptions';
 import DesignOptions from './components/DesignOptions';
 import QrCodePreview from './components/QrCodePreview';
 import QRCodeStyling from 'qr-code-styling';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const tabs = [
   { id: 'URL', label: 'URL', icon: '🔗' },
@@ -98,7 +101,19 @@ function App() {
 
   const [formData, setFormData] = useState({});
 
-  
+  // Thêm mảng nhận link ảnh QR từ props hoặc biến
+  const qrImageLinks = [
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(4)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-2.png ',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(3)-2.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(6)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(9)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(11)-2.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(7)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(5)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(8)-1.png',
+    'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(10)-1.png',
+  ];
 
   const handleDataChange = useCallback((data, tab) => {
     setQrData(generateQRData(data, tab))
@@ -570,6 +585,113 @@ function App() {
 
       {/* FAQ section */}
       <Faq faqData={faqData} />
+      
+
+      {/* Header lớn và subtitle */}
+      <div style={{ width: '100%', textAlign: 'center', marginTop: 44, marginBottom: 16 }}>
+        <h1 style={{ fontSize: 56, fontWeight: 800, margin: 0, letterSpacing: '-2px' }}>
+          Free QR Code generator for high quality
+        </h1>
+      <div style={{ fontSize: 20, color: '#222', marginTop: 12 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
+      </div>
+
+      {/* Thêm Swiper phía dưới header */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '52px 0' }}>
+        <div style={{ maxWidth: 1000, width: '100%' }}>
+          <Slider
+            dots={false}
+            infinite={true}
+            speed={500}
+            slidesToShow={5}
+            slidesToScroll={5}
+            autoplay={true}
+            autoplaySpeed={4000}
+            cssEase="linear"
+            swipe={true}
+            draggable={true}
+            touchMove={false}
+            responsive={[
+              { breakpoint: 900, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+              { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2 } }
+            ]}
+          >
+            {qrImageLinks.map((img, idx) => (
+              <div key={idx} style={{ display: 'flex', justifyContent: 'center' }}>
+                <img src={img} alt={`QR ${idx + 1}`} style={{ width: 180, height: 180, borderRadius: 20, background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }} />
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+      
+      
+
+      {/* Phần nội dung bên dưới slider, 2 hàng 2 cột */}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+        <div style={{ maxWidth: 1100, width: '100%' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+            {/* Hàng 1 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>∞</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>Perpetual Use: Unlimited Scans</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>DingDoong's QR Codes come with boundless possibilities. There's no expiration date, no limits on scans, and absolutely no charges or constraints.</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>🖌️</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>Custom Design and Color Options</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Make your QR Code truly unique with design and color options. Customize corners, body shape, and colors to match your style. Eye-catching QR Codes attract more scans.</div>
+              </div>
+            </div>
+            {/* Hàng 2 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>⏺️</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>High-Resolution Excellence</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>DingDoong's QR Codes: High-resolution for print. You're free to choose the pixel size and file type for your optimal quality.</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>🏠</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>Free for Commercial Use</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Enjoy our QR Codes for free! Use them however you like, even for commercial purposes.</div>
+              </div>
+            </div>
+            {/* Hàng 3 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>➕</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>Logo-Embedded QR Codes</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Personalize your QR Code with a brand for impact. It's easy and effective, keeping the QR Code readable.</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+                <span>✔️</span>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 20 }}>Secure Data Encryption</div>
+                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Ensure privacy with DingDoong's Secure Data Encryption. It keeps your QR Code content confidential and secure.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   );
 }
