@@ -160,13 +160,13 @@ body {
 .section-icon {
   width: 24px;
   height: 24px;
-  background: #e9ecef;
   border-radius: 6px;
+  margin-right: 12px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
-  font-size: 12px;
+  background: #e9ecef;
 }
 
 .qr-section-header span {
@@ -266,9 +266,9 @@ body {
 /* Form styles */
 .form-content {
   width: 100%;
-  background: #fafafa;
   border-radius: 8px;
   padding: 16px;
+  background: #fafafa;
 }
 
 .form-group {
@@ -287,10 +287,10 @@ body {
 .form-select {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.2s ease;
+  border: 1px solid #ddd;
 }
 
 .form-input:focus,
@@ -620,10 +620,10 @@ body {
 
 /* Location specific styles */
 .map-container {
-  margin: 16px 0;
+  height: 400px;
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .coordinate-inputs {
@@ -1203,7 +1203,6 @@ select option {
 .upload-area {
   padding: 18px;
   min-height: 80px;
-  border: 2px dashed #e1e5e9;
   border-radius: 8px;
   background-color: #fafbfc;
   text-align: center;
@@ -1212,6 +1211,7 @@ select option {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px dashed #e1e5e9;
 }
 
 .upload-area:hover {

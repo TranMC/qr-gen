@@ -39,11 +39,13 @@ function QRFormContent({ activeTab, onDataChange, resetForm, formData, setFormDa
     setLocationError('');
     if (!query) return;
     try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=pk.eyJ1IjoidHJhbm1jIiwiYSI6ImNtOXY3M2ZhbjBoZ3Qya213dW95anU0cXYifQ.pD8gRgAT2d-OogFUOiArKQ&limit=1`
+      );
       const data = await res.json();
-      if (data && data.length > 0) {
-        const coords = data[0];
-        const newData = { ...formData, latitude: coords.lat, longitude: coords.lon };
+      if (data && data.features && data.features.length > 0) {
+        const coords = data.features[0].center;
+        const newData = { ...formData, latitude: coords[1], longitude: coords[0] };
         setFormData(newData);
         onDataChange(newData);
         setLocationError('');

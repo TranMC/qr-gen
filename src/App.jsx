@@ -133,8 +133,10 @@ function App() {
       case 'PHONE':
         return `tel:${formData.phone}`
       case 'LOCATION':
-        if (formData.latitude && formData.longitude) {
-          return `https://www.google.com/maps/place/${formData.latitude},${formData.longitude}`;
+        const lat = parseFloat(formData.latitude);
+        const lng = parseFloat(formData.longitude);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          return `https://www.google.com/maps/place/${lat},${lng}`;
         }
         return ''
       case 'WIFI':
@@ -319,27 +321,7 @@ function App() {
     }
   }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
 
-  const searchLocation = async (query) => {
-    setLocationError('');
-    if (!query) return;
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-      if (data && data.length > 0) {
-        const coords = data[0];
-        const newData = { ...formData, latitude: coords.lat, longitude: coords.lon };
-        setFormData(newData);
-        onDataChange(newData);
-        setLocationError('');
-      } else {
-        setLocationError('Không tìm thấy địa điểm phù hợp.');
-      }
-    } catch (err) {
-      setLocationError('Lỗi khi tìm kiếm địa điểm.');
-    }
-  }
-
-  // Chia thành 2 cột
+ 
   
 
   return (    
@@ -601,7 +583,7 @@ function App() {
           <Slider
             dots={false}
             infinite={true}
-            speed={500}
+            speed={400}
             slidesToShow={5}
             slidesToScroll={5}
             autoplay={true}
