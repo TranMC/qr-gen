@@ -10,6 +10,7 @@ import QRCodeStyling from 'qr-code-styling';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import QrAdvantages from './components/QrAdvantages';
 
 const tabs = [
   { id: 'URL', label: 'URL', icon: '🔗' },
@@ -609,70 +610,76 @@ function App() {
       
 
       {/* Phần nội dung bên dưới slider, 2 hàng 2 cột */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 40 }}>
-        <div style={{ maxWidth: 1100, width: '100%' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
-            {/* Hàng 1 */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>∞</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>Perpetual Use: Unlimited Scans</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>DingDoong's QR Codes come with boundless possibilities. There's no expiration date, no limits on scans, and absolutely no charges or constraints.</div>
-              </div>
+      <div className="qr-advantage-grid-section">
+        <div className="qr-advantage-grid-container">
+          {/* Hàng 1 */}
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(0).png" />
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>🖌️</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>Custom Design and Color Options</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Make your QR Code truly unique with design and color options. Customize corners, body shape, and colors to match your style. Eye-catching QR Codes attract more scans.</div>
-              </div>
+            <div>
+              <div className="qr-advantage-title">Perpetual Use: Unlimited Scans</div>
+              <div className="qr-advantage-desc">DingDoong's QR Codes come with boundless possibilities. There's no expiration date, no limits on scans, and absolutely no charges or constraints.</div>
             </div>
-            {/* Hàng 2 */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>⏺️</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>High-Resolution Excellence</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>DingDoong's QR Codes: High-resolution for print. You're free to choose the pixel size and file type for your optimal quality.</div>
-              </div>
+          </div>
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(1).png"/>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>🏠</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>Free for Commercial Use</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Enjoy our QR Codes for free! Use them however you like, even for commercial purposes.</div>
-              </div>
+            <div>
+              <div className="qr-advantage-title">Custom Design and Color Options</div>
+              <div className="qr-advantage-desc">Make your QR Code truly unique with design and color options. Customize corners, body shape, and colors to match your style. Eye-catching QR Codes attract more scans.</div>
             </div>
-            {/* Hàng 3 */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>➕</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>Logo-Embedded QR Codes</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Personalize your QR Code with a brand for impact. It's easy and effective, keeping the QR Code readable.</div>
-              </div>
+          </div>
+          {/* Hàng 2 */}
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(2).png"/>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <div style={{ width: 64, height: 64, background: '#f4f4f4', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
-                <span>✔️</span>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 20 }}>Secure Data Encryption</div>
-                <div style={{ fontSize: 16, color: '#444', marginTop: 6 }}>Ensure privacy with DingDoong's Secure Data Encryption. It keeps your QR Code content confidential and secure.</div>
-              </div>
+            <div>
+              <div className="qr-advantage-title">High-Resolution Excellence</div>
+              <div className="qr-advantage-desc">DingDoong's QR Codes: High-resolution for print. You're free to choose the pixel size and file type for your optimal quality.</div>
+            </div>
+          </div>
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(2).png" />
+            </div>
+            <div>
+              <div className="qr-advantage-title">Free for Commercial Use</div>
+              <div className="qr-advantage-desc">Enjoy our QR Codes for free! Use them however you like, even for commercial purposes.</div>
+            </div>
+          </div>
+          {/* Hàng 3 */}
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(4).png"/>
+            </div>
+            <div>
+              <div className="qr-advantage-title">Logo-Embedded QR Codes</div>
+              <div className="qr-advantage-desc">Personalize your QR Code with a brand for impact. It's easy and effective, keeping the QR Code readable.</div>
+            </div>
+          </div>
+          <div className="qr-advantage-row">
+            <div className="qr-advantage-icon-box">
+              <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(5).png"/>
+            </div>
+            <div>
+              <div className="qr-advantage-title">Secure Data Encryption</div>
+              <div className="qr-advantage-desc">Ensure privacy with DingDoong's Secure Data Encryption. It keeps your QR Code content confidential and secure.</div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Section: What are the advantages of using a QR Code? */}
+      <div className="qr-adv-title-section">
+        <h1 className="qr-adv-main-title">What are the advantages of using a QR Code?</h1>
+        <div className="qr-adv-subtitle">
+          Explore how QR Codes positively impact your business, marketing, and personal branding
+        </div>
+      </div>
+      <QrAdvantages />
 
     </div>
   );
