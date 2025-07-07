@@ -583,7 +583,7 @@ function App() {
 
       {/* Thêm Swiper phía dưới header */}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '52px 0' }}>
-        <div style={{ maxWidth: 1000, width: '100%' }}>
+        <div style={{ maxWidth: 1221, width: '100%' }}>
           <Slider
             dots={false}
             infinite={true}
@@ -603,7 +603,7 @@ function App() {
           >
             {qrImageLinks.map((img, idx) => (
               <div key={idx} style={{ display: 'flex', justifyContent: 'center' }}>
-                <img src={img} alt={`QR ${idx + 1}`} style={{ width: 180, height: 180, borderRadius: 20, background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }} />
+                <img src={img} alt={`QR ${idx + 1}`} style={{ width: 220, height: 220, borderRadius: 20, background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }} />
               </div>
             ))}
           </Slider>
