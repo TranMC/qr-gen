@@ -364,7 +364,7 @@ function App() {
         </div>
       </header>
 
-      
+      {/* Phần Tabbar tách lên trên */}
       <nav className="qr-tabbar">
           {tabs.map(tab => (
             <button 
@@ -578,7 +578,7 @@ function App() {
         <h1 style={{ fontSize: 56, fontWeight: 800, margin: 0, letterSpacing: '-2px' }}>
           Free QR Code generator for high quality
         </h1>
-      <div style={{ fontSize: 17, color: '#222', marginTop: 12 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
+      <div style={{ fontSize: 17, color: '#222', marginTop: 18 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
       </div>
 
       {/* Thêm Swiper phía dưới header */}

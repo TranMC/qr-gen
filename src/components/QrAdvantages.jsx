@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { qrAdvantagesData } from '../assets/qrAdvantagesData';
-import './QrAdvantages.css';
+import './css/QrAdvantages.css';
 
 const categories = [
   { key: 'business', label: 'Business' },

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import UrlForm from './QRForms/UrlForm';
-import FacebookForm from './QRForms/FacebookForm';
-import TextForm from './QRForms/TextForm';
-import EmailForm from './QRForms/EmailForm';
-import PhoneForm from './QRForms/PhoneForm';
-import LocationForm from './QRForms/LocationForm';
-import WifiForm from './QRForms/WifiForm';
-import VcardForm from './QRForms/VcardForm';
-import GoogleReviewForm from './QRForms/GoogleReviewForm';
+import UrlForm from './QR_tab/UrlForm';
+import FacebookForm from './QR_tab/FacebookForm';
+import TextForm from './QR_tab/TextForm';
+import EmailForm from './QR_tab/EmailForm';
+import PhoneForm from './QR_tab/PhoneForm';
+import LocationForm from './QR_tab/LocationForm';
+import WifiForm from './QR_tab/WifiForm';
+import VcardForm from './QR_tab/VcardForm';
+import GoogleReviewForm from './QR_tab/GoogleReviewForm';
 
 const defaults = {
   URL: { url: '' },
