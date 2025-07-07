@@ -363,9 +363,9 @@ function App() {
           </div>
         </div>
       </header>
+
       
-      <div className="qr-main-container">
-        <nav className="qr-tabbar">
+      <nav className="qr-tabbar">
           {tabs.map(tab => (
             <button 
               className={`qr-tabbar-btn ${activeTab === tab.id ? 'active' : ''}`} 
@@ -376,11 +376,14 @@ function App() {
             </button>
           ))}
         </nav>
+      <div className="qr-main-container">
+
         
         <div className="qr-content-container">
           <div className="qr-left-panel">
             {}
-            <div className="qr-section">              <div 
+            <div className="qr-section">              
+              <div 
                 className="qr-section-header"
                 onClick={() => setContentExpanded(!contentExpanded)}
               >
@@ -575,7 +578,7 @@ function App() {
         <h1 style={{ fontSize: 56, fontWeight: 800, margin: 0, letterSpacing: '-2px' }}>
           Free QR Code generator for high quality
         </h1>
-      <div style={{ fontSize: 20, color: '#222', marginTop: 12 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
+      <div style={{ fontSize: 17, color: '#222', marginTop: 12 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
       </div>
 
       {/* Thêm Swiper phía dưới header */}

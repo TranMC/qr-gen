@@ -69,6 +69,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  border: 3px solid #1d1d1d;
 }
 
 /* Tab bar */
@@ -89,7 +90,7 @@ body {
 .qr-tabbar-btn {
   background: none;
   border: none;
-  padding: 16px 24px;
+  padding: 8px 15px;
   font-size: 14px;
   font-weight: 500;
   color: #6c757d;
@@ -105,9 +106,11 @@ body {
 }
 
 .qr-tabbar-btn.active {
-  color: #e91e63;
-  background: white;
-  border-bottom-color: #e91e63;
+  background: #e91e63;
+  color: white;
+  /* border-bottom-color: black; */
+  border: 3px solid #1d1d1d !important;
+  border-bottom: initial !important
 }
 
 /* Content container */
@@ -470,8 +473,8 @@ body {
 
 .reset-qr-btn {
   position: absolute;
-  top: 8px;
-  right: 16px;
+  top: 346px;
+  right: 141px;
   background: #fff;
   border: 1px solid #e9ecef;
   color: #e91e63;
@@ -1069,7 +1072,7 @@ select option {
 }
 
 .faq-container {
-  max-width: 1290px;
+  max-width: 1270px;
   margin: 65px auto;
   padding: 0 20px;
 }
