@@ -393,7 +393,7 @@ function App() {
 
         
         <div className="qr-content-container">
-          <div className="qr-left-panel">
+          <div className="qr-left-panel custom-left-panel">
             {}
             <div className="qr-section">              
               <div 
@@ -487,7 +487,7 @@ function App() {
             </div>
           </div>
           
-          <div className="qr-right-panel">
+          <div className="qr-right-panel custom-right-panel">
             <QrCodePreview
               qrRef={qrRef}
               showQR={showQR}
