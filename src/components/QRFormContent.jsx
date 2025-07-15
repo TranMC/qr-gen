@@ -26,7 +26,7 @@ function QRFormContent({ activeTab, onDataChange, resetForm, formData, setFormDa
 
   useEffect(() => {
     setFormData({ ...defaults[activeTab] })
-    // eslint-disable-next-line
+
   }, [activeTab, resetForm])
 
   const handleInputChange = (field, value) => {

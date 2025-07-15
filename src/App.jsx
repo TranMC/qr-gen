@@ -80,8 +80,6 @@ function App() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxZoom, setLightboxZoom] = useState(1)
   const [lightboxRotation, setLightboxRotation] = useState(0)
-  const [activeFAQ, setActiveFAQ] = useState([])
-
   const [colorMode, setColorMode] = useState('single'); // 'single', 'gradient', 'eye'
   const [fgColor2, setFgColor2] = useState('#5dde9f');
   const [gradientType, setGradientType] = useState('radial'); // 'linear', 'radial'
@@ -98,11 +96,9 @@ function App() {
 
   const [showQR, setShowQR] = useState(false);
 
-  const [locationError, setLocationError] = useState('');
-
   const [formData, setFormData] = useState({});
 
-  // Thêm mảng nhận link ảnh QR từ props hoặc biến
+
   const qrImageLinks = [
     'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(4)-1.png',
     'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-2.png ',
@@ -250,7 +246,7 @@ function App() {
     setFgColor2(tmp);
   };
 
-  // Đồng bộ màu khi đổi mode
+
   useEffect(() => {
     if (colorMode === 'gradient') {
       setFgColor2(fgColor);
@@ -259,33 +255,25 @@ function App() {
     }
   }, [colorMode]);
 
-  // QR code ngoài
+  const getQRCodeOptions = (width, height) => ({
+    width,
+    height,
+    data: qrData,
+    image: undefined,
+    dotsOptions: { type: bodyShape },
+    backgroundOptions: { color: bgColor },
+    cornersSquareOptions: useCustomEye ? { color: eyeFrameColor } : {},
+    cornersDotOptions: { color: useCustomEye ? eyeBallColor : undefined, type: eyeBallShape },
+    ...(colorMode === 'single'
+      ? { dotsOptions: { ...{ type: bodyShape }, color: fgColor } }
+      : colorMode === 'gradient'
+      ? { dotsOptions: { ...{ type: bodyShape }, gradient: { type: gradientType, colorStops: [ { offset: 0, color: fgColor }, { offset: 1, color: fgColor2 } ] } } }
+      : {})
+  });
+
   useEffect(() => {
     if (!showQR) return;
-    const options = {
-      width: 252,
-      height: 252,
-      data: qrData,
-      image: undefined,
-      dotsOptions: { type: bodyShape },
-      backgroundOptions: { color: bgColor },
-      cornersSquareOptions: useCustomEye ? { color: eyeFrameColor } : {},
-      cornersDotOptions: { color: useCustomEye ? eyeBallColor : undefined, type: eyeBallShape },
-    };
-    if (colorMode === 'single') {
-      options.dotsOptions.color = fgColor;
-    } else if (colorMode === 'gradient') {
-      options.dotsOptions.gradient = {
-        type: gradientType,
-        colorStops: [
-          { offset: 0, color: fgColor },
-          { offset: 1, color: fgColor2 }
-        ]
-      };
-    }
-    if (useCustomEye) {
-      options.dotsOptions.color = fgColor;
-    }
+    const options = getQRCodeOptions(252, 252);
     if (!qrStyling.current) {
       qrStyling.current = new QRCodeStyling(options);
     } else {
@@ -297,33 +285,9 @@ function App() {
     }
   }, [showQR, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
 
-  // QR code preview (lightbox)
   useEffect(() => {
     if (!lightboxOpen) return;
-    const options = {
-      width: 500,
-      height: 500,
-      data: qrData,
-      image: undefined,
-      dotsOptions: { type: bodyShape },
-      backgroundOptions: { color: bgColor },
-      cornersSquareOptions: useCustomEye ? { color: eyeFrameColor } : {},
-      cornersDotOptions: { color: useCustomEye ? eyeBallColor : undefined, type: eyeBallShape },
-    };
-    if (colorMode === 'single') {
-      options.dotsOptions.color = fgColor;
-    } else if (colorMode === 'gradient') {
-      options.dotsOptions.gradient = {
-        type: gradientType,
-        colorStops: [
-          { offset: 0, color: fgColor },
-          { offset: 1, color: fgColor2 }
-        ]
-      };
-    }
-    if (useCustomEye) {
-      options.dotsOptions.color = fgColor;
-    }
+    const options = getQRCodeOptions(500, 500);
     if (!lightboxQrStyling.current) {
       lightboxQrStyling.current = new QRCodeStyling(options);
     } else {
@@ -345,7 +309,6 @@ function App() {
         <div className="qr-badges-row">
           <div className="qr-badge">
             <span className="qr-badge-icon">
-              {/* Icon dollar */}
               <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
                 <circle cx="10" cy="10" r="10" fill="#e91e63"/>
                 <text x="10" y="15" textAnchor="middle" fontSize="13" fill="#fff" fontWeight="bold">$</text>
@@ -355,7 +318,6 @@ function App() {
           </div>
           <div className="qr-badge">
             <span className="qr-badge-icon">
-              {/* Icon đồng hồ */}
               <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
                 <circle cx="10" cy="10" r="10" fill="#e91e63"/>
                 <rect x="9" y="5" width="2" height="6" rx="1" fill="#fff"/>
@@ -366,7 +328,6 @@ function App() {
           </div>
           <div className="qr-badge">
             <span className="qr-badge-icon">
-              {/* Icon dấu trừ */}
               <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
                 <circle cx="10" cy="10" r="10" fill="#e91e63"/>
                 <rect x="5" y="9" width="10" height="2" rx="1" fill="#fff"/>
@@ -377,7 +338,7 @@ function App() {
         </div>
       </header>
 
-      {/* Phần Tabbar tách lên trên */}
+
       <nav className="qr-tabbar">
           {tabs.map(tab => (
             <button 
@@ -462,7 +423,7 @@ function App() {
               </div>
             </div>
 
-            {/* Add Logo Image */}
+
             <div className="qr-section">
               <div
                 className={`qr-section-header${logoExpanded ? ' active' : ''}`}
@@ -489,7 +450,7 @@ function App() {
               </div>
             </div>
 
-            {/* Customize Design */}
+
             <div className="qr-section">              
               <div 
                 className={`qr-section-header${designExpanded ? ' active' : ''}`}
@@ -616,11 +577,9 @@ function App() {
         </div>
       </div>
 
-      {/* FAQ section */}
       <Faq faqData={faqData} />
       
 
-      {/* Header lớn và subtitle */}
       <div style={{ width: '100%', textAlign: 'center', marginTop: 44, marginBottom: 16 }}>
         <h1 style={{ fontSize: 56, fontWeight: 800, margin: 0, letterSpacing: '-2px' }}>
           Free QR Code generator for high quality
@@ -628,7 +587,7 @@ function App() {
       <div style={{ fontSize: 17, color: '#222', marginTop: 18 }}>Explore DingDoong's QR Code Generator: Packed with Incredible Advantages!</div>
       </div>
 
-      {/* Thêm Swiper phía dưới header */}
+
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '52px 0' }}>
         <div style={{ maxWidth: 1221, width: '100%' }}>
           <Slider
@@ -659,10 +618,8 @@ function App() {
       
       
 
-      {/* Phần nội dung bên dưới slider, 2 hàng 2 cột */}
       <div className="qr-advantage-grid-section">
         <div className="qr-advantage-grid-container">
-          {/* Hàng 1 */}
           <div className="qr-advantage-row">
             <div className="qr-advantage-icon-box">
               <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(0).png" />
@@ -681,7 +638,6 @@ function App() {
               <div className="qr-advantage-desc">Make your QR Code truly unique with design and color options. Customize corners, body shape, and colors to match your style. Eye-catching QR Codes attract more scans.</div>
             </div>
           </div>
-          {/* Hàng 2 */}
           <div className="qr-advantage-row">
             <div className="qr-advantage-icon-box">
               <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(2).png"/>
@@ -700,7 +656,6 @@ function App() {
               <div className="qr-advantage-desc">Enjoy our QR Codes for free! Use them however you like, even for commercial purposes.</div>
             </div>
           </div>
-          {/* Hàng 3 */}
           <div className="qr-advantage-row">
             <div className="qr-advantage-icon-box">
               <img src="https://apps3.omegatheme.com/qr-code-generator-frontend/images/Group-42439-(4).png"/>
@@ -722,7 +677,6 @@ function App() {
         </div>
       </div>
 
-      {/* Section: What are the advantages of using a QR Code? */}
       <div className="qr-adv-title-section">
         <h1 className="qr-adv-main-title">What are the advantages of using a QR Code?</h1>
         <div className="qr-adv-subtitle">

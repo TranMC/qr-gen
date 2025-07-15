@@ -16,7 +16,7 @@ export default function QrAdvantages() {
   else if (active === 'marketing') gridClass = 'qr-advantages-grid-marketing';
   else if (active === 'freelancer') gridClass = 'qr-advantages-grid-freelancer';
 
-  // Helper render cho từng loại
+
   function renderBusiness() {
     return qrAdvantagesData.business.map((item, idx) => (
       <div className="qr-adv-card" key={idx}>
@@ -31,7 +31,7 @@ export default function QrAdvantages() {
   }
 
   function renderMarketing() {
-    // 3 hàng, mỗi hàng 2 ảnh, 1 title chung dưới ảnh
+
     const rows = [
       [0, 1], // hàng 1
       [2, 3], // hàng 2
@@ -65,12 +65,12 @@ export default function QrAdvantages() {
   }
 
   function renderFreelancer() {
-    // 2 ảnh đầu
+
     const img1 = qrAdvantagesData.freelancer[0];
     const img2 = qrAdvantagesData.freelancer[1];
-    // wide
+
     const wide = qrAdvantagesData.freelancer[2];
-    // 2 ảnh cuối
+
     const img3 = qrAdvantagesData.freelancer[3];
     const img4 = qrAdvantagesData.freelancer[4];
     return [
@@ -90,7 +90,7 @@ export default function QrAdvantages() {
         )}
         <div className="qr-adv-title">{img2.title}</div>
       </div>,
-      // wide card riêng biệt
+
       <div className="qr-adv-card freelancer-wide" key={2} style={{ gridColumn: '1 / -1' }}>
         {wide.link ? (
           <img className="qr-adv-img-wide-placeholder" src={wide.link} alt={wide.title} />
@@ -99,7 +99,7 @@ export default function QrAdvantages() {
         )}
         <div className="qr-adv-title">{wide.title}</div>
       </div>,
-      // group 2 ảnh cuối + title chung
+
       <div className="qr-adv-group" key="freelancer-group" style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 24 }}>
           <div className="qr-adv-card" style={{ paddingBottom: 0 }}>

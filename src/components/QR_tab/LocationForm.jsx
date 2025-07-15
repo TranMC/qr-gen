@@ -20,7 +20,7 @@ function LocationForm({ formData, onInputChange, locationError, onSearchLocation
   const [searchInput, setSearchInput] = useState(formData.searchLocation || '');
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Khởi tạo map
+
   useEffect(() => {
     if (map.current) return;
     map.current = new mapboxgl.Map({
@@ -32,7 +32,7 @@ function LocationForm({ formData, onInputChange, locationError, onSearchLocation
       ],
       zoom: 15
     });
-    // Thêm marker nếu có tọa độ
+
     if (formData.latitude && formData.longitude) {
       marker.current = new mapboxgl.Marker({ color: '#e91e63' })
         .setLngLat([
@@ -40,35 +40,35 @@ function LocationForm({ formData, onInputChange, locationError, onSearchLocation
           parseFloat(formData.latitude)
         ])
         .addTo(map.current);
-      // Gắn popup vào marker, không addTo map
+
       popup.current = new mapboxgl.Popup({ offset: 25 })
         .setText(`Lat: ${formData.latitude}, Lng: ${formData.longitude}`);
       marker.current.setPopup(popup.current);
-      // Chỉ mở popup khi click marker
+
       marker.current.getElement().addEventListener('click', () => {
         marker.current.togglePopup();
       });
     }
-    // Click để chọn vị trí
+
     map.current.on('click', (e) => {
       const { lng, lat } = e.lngLat;
       onInputChange('latitude', lat);
       onInputChange('longitude', lng);
     });
-    // Resize map sau khi mount để fix hiển thị
+
     setTimeout(() => {
       map.current && map.current.resize();
     }, 200);
   }, []);
 
-  // Đổi style bản đồ
+
   useEffect(() => {
     if (map.current) {
       map.current.setStyle(mapStyle);
     }
   }, [mapStyle]);
 
-  // Cập nhật marker & popup khi lat/lng thay đổi
+
   useEffect(() => {
     if (!map.current) return;
     if (formData.latitude && formData.longitude) {
@@ -76,17 +76,17 @@ function LocationForm({ formData, onInputChange, locationError, onSearchLocation
         parseFloat(formData.longitude),
         parseFloat(formData.latitude)
       ]);
-      // Xóa marker cũ nếu có
+
       if (marker.current) marker.current.remove();
       if (popup.current) popup.current.remove();
-      // Thêm marker mới
+
       marker.current = new mapboxgl.Marker({ color: '#e91e63' })
         .setLngLat([
           parseFloat(formData.longitude),
           parseFloat(formData.latitude)
         ])
         .addTo(map.current);
-      // Gắn popup vào marker, không addTo map
+
       popup.current = new mapboxgl.Popup({ offset: 25 })
         .setText(`Lat: ${formData.latitude}, Lng: ${formData.longitude}`);
       marker.current.setPopup(popup.current);
@@ -96,7 +96,7 @@ function LocationForm({ formData, onInputChange, locationError, onSearchLocation
     }
   }, [formData.latitude, formData.longitude]);
 
-  // Autocomplete search box (Mapbox Geocoding API)
+
   useEffect(() => {
     if (!searchInput) {
       setSearchSuggestions([]);

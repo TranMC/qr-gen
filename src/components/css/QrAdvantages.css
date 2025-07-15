@@ -81,8 +81,7 @@
 }
 
 .qr-adv-title {
-  /* font-weight: 600; */
-  font-weight: bold;
+    font-weight: bold;
   text-align: center;
   margin-top: 0;
   font-size: 16px

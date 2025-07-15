@@ -1,4 +1,3 @@
-/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
@@ -15,10 +14,8 @@ body {
   min-height: 100vh;
   margin-top: 32px;
   margin-bottom: 70px;
-  /* padding: 20px; */
-}
+  }
 
-/* Header styles */
 .qr-header {
   padding: 20px 20px 40px 20px;
   text-align: center;
@@ -61,7 +58,6 @@ body {
   color: white;
 }
 
-/* Main container */
 .qr-main-container {
   max-width: 1252px;
   margin: 0 auto;
@@ -72,7 +68,6 @@ body {
   border: 3px solid #1d1d1d;
 }
 
-/* Tab bar */
 .qr-tabbar {
   display: flex;
   justify-content: center;
@@ -108,12 +103,10 @@ body {
 .qr-tabbar-btn.active {
   background: #e91e63;
   color: white;
-  /* border-bottom-color: black; */
-  border: 3px solid #1d1d1d !important;
+    border: 3px solid #1d1d1d !important;
   border-bottom: initial !important
 }
 
-/* Content container */
 .qr-content-container {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -154,13 +147,11 @@ body {
   }
 }
 
-/* Left panel */
 .qr-left-panel {
-  padding: 32px;
+  padding: 50px;
   border-right: 1px solid #e9ecef;
 }
 
-/* Section styles */
 .qr-section {
   margin-bottom: 16px;
   border: 1px solid #e9ecef;
@@ -190,8 +181,7 @@ body {
 }
 .qr-section-header-icon {
   background: #e0e0e0;
-  /* color: #bdbdbd; */
-  display: flex;
+    display: flex;
   align-items: center;
   justify-content: center;
   min-width: 56px;
@@ -204,16 +194,14 @@ body {
 }
 .qr-section-header.active .qr-section-header-icon {
   background: #e91e63;
-  /* color: #fff; */
-}
+  }
 .qr-section-header-content {
   display: flex;
   align-items: center;
   flex: 1;
   padding: 0 20px;
   font-weight: 600;
-  /* color: #bdbdbd; */
-  font-size: 18px;
+    font-size: 18px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   transition: color 0.2s, font-weight 0.2s;
@@ -224,8 +212,7 @@ body {
 }
 .qr-section-header .dropdown-arrow {
   margin-left: auto;
-  /* color: #bdbdbd; */
-  font-weight: 400;
+    font-weight: 400;
   transition: color 0.2s;
 }
 .qr-section-header.active .dropdown-arrow {
@@ -260,8 +247,7 @@ body {
 .qr-section-header span {
   flex: 1;
   font-weight: 500;
-  /* color: #495057; */
-}
+  }
 
 .dropdown-arrow {
   font-size: 12px;
@@ -290,14 +276,11 @@ body {
 
 .qr-section-content.expanded {
   max-height: 2000px;
-  min-height: 180px;
-  opacity: 1;
+    opacity: 1;
   transform: scaleY(1) translateY(0);
 }
 
-/* Debug styles for dropdown sections */
 .qr-section-content.expanded {
-  /* border: 2px solid #e91e63; */
   border-top: none;
 }
 
@@ -351,11 +334,10 @@ body {
   }
 }
 
-/* Form styles */
 .form-content {
   width: 100%;
+  padding: 0;
   border-radius: 8px;
-  padding: 16px;
   background: #fafafa;
 }
 
@@ -419,7 +401,6 @@ body {
   font-size: 12px;
 }
 
-/* Color options */
 .color-option-group {
   margin-bottom: 18px;
 }
@@ -486,7 +467,6 @@ body {
   margin-top: 18px;
 }
 
-/* Design options */
 .design-option-group {
   margin-top: 12px;
 }
@@ -505,7 +485,6 @@ body {
   width: 100%;
 }
 
-/* QR Code Preview */
 .qr-preview-section {
   width: 100%;
   max-width: 380px;
@@ -706,7 +685,6 @@ body {
   font-weight: 500;
 }
 
-/* Location specific styles */
 .map-container {
   height: 400px;
   position: relative;
@@ -752,7 +730,6 @@ body {
   font-size: 12px;
 }
 
-/* Lightbox styles */
 .lightbox-overlay {
   position: fixed;
   top: 0;
@@ -824,7 +801,6 @@ body {
   background: rgba(255, 0, 0, 0.5);
 }
 
-/* Mobile responsive for lightbox */
 @media (max-width: 768px) {
   .lightbox-container {
     gap: 15px;
@@ -848,7 +824,6 @@ body {
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .qr-app-root {
     padding: 10px;
@@ -933,7 +908,6 @@ body {
   }
 }
 
-/* Focus styles for accessibility */
 .qr-tabbar-btn:focus,
 .qr-section-header:focus,
 .create-btn:focus,
@@ -943,7 +917,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Select element improvements */
 select {
   appearance: none;
   background: white;
@@ -978,13 +951,11 @@ select option {
   color: #495057;
 }
 
-/* Info section styles */
 .info-section {
   background: #f4c430;
   padding: 60px 0 60px 0;
   margin-top: 70px;
-  /* border-radius: 0 0 24px 24px; */
-}
+  }
 
 .info-container {
   max-width: 1200px;
@@ -998,8 +969,7 @@ select option {
   font-weight: 700;
   color: #111;
   margin-bottom: 12px;
-  /* font-family: 'Montserrat', Arial, sans-serif; */
-}
+  }
 
 .info-subtitle {
   text-align: center;
@@ -1047,13 +1017,8 @@ select option {
 }
 
 .qr-type-card {
-  /* width: 470px;
-  min-width: 470px;
-  max-width: 470px; */
-  height: 136px;
-  /* min-height: 146px;
-  max-height: 146px; */
-  background: #fff;
+    height: 136px;
+    background: #fff;
   padding: 24px 24px;
   border-radius: 5px;
   text-align: left;
@@ -1151,7 +1116,6 @@ select option {
   }
 }
 
-/* FAQ section styles */
 .faq-section {
   background: #f8f9fa;
   padding: 80px 20px;
@@ -1273,7 +1237,6 @@ select option {
   }
 }
 
-/* Logo Upload Section Styles */
 .logo-upload-section {
   margin-top: 0px;
 }
@@ -1432,7 +1395,6 @@ select option {
   }
 }
 
-/* Lightbox styles */
 .lightbox-overlay {
   position: fixed;
   top: 0;
@@ -1510,7 +1472,6 @@ select option {
   background: rgba(255, 0, 0, 0.5);
 }
 
-/* Mobile responsive for lightbox */
 @media (max-width: 768px) {
   .lightbox-container {
     gap: 15px;
@@ -1534,7 +1495,6 @@ select option {
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .qr-app-root {
     padding: 10px;
@@ -1619,7 +1579,6 @@ select option {
   }
 }
 
-/* Focus styles for accessibility */
 .qr-tabbar-btn:focus,
 .qr-section-header:focus,
 .create-btn:focus,
@@ -1629,7 +1588,6 @@ select option {
   outline-offset: 2px;
 }
 
-/* Select element improvements */
 select {
   appearance: none;
   background: white;

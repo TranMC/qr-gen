@@ -1,4 +1,3 @@
-/* Global CSS Reset and Base Styles */
 *,
 *::before,
 *::after {
@@ -34,7 +33,6 @@ body {
   flex-direction: column;
 }
 
-/* Improved typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Unbounded', cursive;
   font-weight: 600;
@@ -46,7 +44,6 @@ p {
   margin-bottom: 1rem;
 }
 
-/* Better button defaults */
 button {
   font-family: inherit;
   font-size: inherit;
@@ -61,14 +58,12 @@ button:disabled {
   opacity: 0.6;
 }
 
-/* Form elements */
 input, textarea, select {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
 
-/* Links */
 a {
   color: #4facfe;
   text-decoration: none;
@@ -79,13 +74,11 @@ a:hover {
   color: #2b77e6;
 }
 
-/* Focus styles for accessibility */
 *:focus {
   outline: 2px solid #4facfe;
   outline-offset: 2px;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -104,7 +97,6 @@ a:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Selection styles */
 ::selection {
   background: rgba(79, 172, 254, 0.3);
   color: #2d3748;
@@ -115,7 +107,6 @@ a:hover {
   color: #2d3748;
 }
 
-/* Modern pill-shaped tabbar redesign matching Ant Design style */
 .qr-tabbar {
   display: flex;
   gap: 0;
@@ -158,22 +149,11 @@ a:hover {
   color: #e91e63;
 }
 
-/* Wrapper container to match the reference design
-.qr-main-container {
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-} */
 
-/* Section container for accordion groups */
 .qr-section {
   margin-bottom: 16px;
 }
 
-/* Override existing accordion styles to match the new wrapper */
 .qr-section-header {
   background-color: #fff ;
   border: 2px solid #d8d6de ;
@@ -200,7 +180,6 @@ a:hover {
   margin-bottom: 0 ;
 }
 
-/* Section icon styling */
 .section-icon {
   width: 40px ;
   height: 40px ;
@@ -219,15 +198,7 @@ a:hover {
   background: #e91e63 ;
 }
 
-/* Section text
-.qr-section-header span {
-  flex: 1 ;
-  font-weight: 600 ;
-  color: #1d1d1d ;
-  font-size: 16px ;
-} */
 
-/* Dropdown arrow */
 .dropdown-arrow {
   font-size: 14px ;
   color: #B9B9C3 ;
@@ -239,7 +210,6 @@ a:hover {
   transform: rotate(180deg) ;
 }
 
-/* Updated section content to connect with header */
 .qr-section-content {
   overflow: hidden ;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ;
@@ -272,7 +242,6 @@ a:hover {
   overflow: hidden ;
 }
 
-/* Content wrapper */
 .content-wrapper {
   padding: 24px ;
   transform: translateY(0) ;
@@ -280,7 +249,6 @@ a:hover {
   transition: all 0.3s ease 0.1s ;
 }
 
-/* Staggered animation for content items */
 .qr-section.expanded .content-wrapper > * {
   animation: slideInFade 0.4s ease forwards ;
   opacity: 0 ;
@@ -306,7 +274,6 @@ a:hover {
   }
 }
 
-/* Complete layout overhaul to match reference design */
 .ant-tabs-content-holder {
   display: flex ;
   flex-direction: row ;
@@ -316,7 +283,6 @@ a:hover {
   padding: 0 ;
 }
 
-/* Left side - Form content */
 .setting__section {
   background-color: #f5f5f5 ;
   border-radius: 8px 0 0 8px ;
@@ -326,7 +292,6 @@ a:hover {
   margin: 0 ;
 }
 
-/* Right side - Preview section */
 .preview__section {
   width: 50% ;
   padding: 2rem ;
@@ -338,7 +303,6 @@ a:hover {
   border-radius: 0 8px 8px 0 ;
 }
 
-/* QR Preview image styling */
 .preview__section .image {
   margin-bottom: 1rem ;
 }
@@ -350,7 +314,6 @@ a:hover {
   box-shadow: 0 2px 12px rgba(233,30,99,0.08) ;
 }
 
-/* Reset button */
 .button-reset {
   color: #e91e63 ;
   font-size: 15px ;
@@ -360,7 +323,6 @@ a:hover {
   border: none ;
 }
 
-/* Size slider section */
 .range-width {
   width: 100% ;
   margin-bottom: 20px ;
@@ -374,7 +336,6 @@ a:hover {
   margin-bottom: 16px ;
 }
 
-/* Button group styling */
 .button-group {
   width: 100% ;
   display: flex ;
@@ -400,7 +361,6 @@ a:hover {
   padding: 14px ;
 }
 
-/* Accordion header - expense__header styling */
 .expense__header {
   background-color: #fff ;
   border: 2px solid #d8d6de ;
@@ -421,7 +381,6 @@ a:hover {
   box-shadow: 3px 3px 0 #1d1d1d ;
 }
 
-/* Icon styling */
 .prefix__icon {
   width: 40px ;
   height: 40px ;
@@ -454,7 +413,6 @@ a:hover {
   transform: rotate(180deg) ;
 }
 
-/* Collapse content styling with smooth animations */
 .ant-collapse-content {
   overflow: hidden ;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ;
@@ -485,7 +443,6 @@ a:hover {
   transition: all 0.3s ease 0.1s ;
 }
 
-/* Fix for arrow icon rotation */
 .expense__icon svg {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) ;
 }
@@ -498,7 +455,6 @@ a:hover {
   transform: rotate(180deg) ;
 }
 
-/* Enhanced accordion header states */
 .ant-collapse-item:not(.ant-collapse-item-active) .expense__header {
   border: 2px solid #d8d6de ;
   box-shadow: none ;
@@ -517,7 +473,6 @@ a:hover {
   border-radius: 10px 10px 0 0 ;
 }
 
-/* Staggered animation for content items */
 .expense__content > * {
   animation: slideInFade 0.4s ease forwards ;
   opacity: 0 ;
