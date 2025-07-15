@@ -219,13 +219,13 @@ a:hover {
   background: #e91e63 ;
 }
 
-/* Section text */
+/* Section text
 .qr-section-header span {
   flex: 1 ;
   font-weight: 600 ;
   color: #1d1d1d ;
   font-size: 16px ;
-}
+} */
 
 /* Dropdown arrow */
 .dropdown-arrow {

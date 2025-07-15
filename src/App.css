@@ -170,16 +170,67 @@ body {
 
 .qr-section-header {
   display: flex;
-  align-items: center;
-  padding: 16px 20px;
-  background: #f8f9fa;
+  align-items: stretch;
+  padding: 0;
+  background: #f5f5f7;
   cursor: pointer;
-  transition: none;
+  transition: background 0.2s, border 0.2s, color 0.2s;
   user-select: none;
   position: relative;
-  border: 2px solid #1d1d1d;
+  border: 2px solid #e0e0e0;
   border-radius: 12px;
+  box-shadow: none;
+  min-height: 56px;
+  margin-bottom: 12px;
+}
+.qr-section-header.active {
+  background: #fff;
+  border: 2.5px solid #1d1d1d;
   box-shadow: 3px 3px 0 #1d1d1d;
+}
+.qr-section-header-icon {
+  background: #e0e0e0;
+  /* color: #bdbdbd; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  max-width: 56px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-size: 24px;
+  height: 100%;
+  transition: background 0.2s, color 0.2s;
+}
+.qr-section-header.active .qr-section-header-icon {
+  background: #e91e63;
+  /* color: #fff; */
+}
+.qr-section-header-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0 20px;
+  font-weight: 600;
+  /* color: #bdbdbd; */
+  font-size: 18px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: color 0.2s, font-weight 0.2s;
+}
+.qr-section-header.active .qr-section-header-content {
+  color: #222;
+  font-weight: 700;
+}
+.qr-section-header .dropdown-arrow {
+  margin-left: auto;
+  /* color: #bdbdbd; */
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.qr-section-header.active .dropdown-arrow {
+  color: #222;
+  font-weight: 700;
 }
 
 .qr-section-header:hover {
@@ -209,7 +260,7 @@ body {
 .qr-section-header span {
   flex: 1;
   font-weight: 500;
-  color: #495057;
+  /* color: #495057; */
 }
 
 .dropdown-arrow {
@@ -1655,4 +1706,21 @@ select option {
   font-size: 16px;
   color: #444;
   margin-top: 6px;
+}
+
+.qr-section-header-icon svg path {
+  transition: fill 0.2s;
+  fill: #8E8E8E;
+}
+.qr-section-header.active .qr-section-header-icon svg path {
+  fill: #fff;
+}
+.qr-section-header-content span {
+  color: #bdbdbd;
+  transition: color 0.2s;
+  font-weight: bold;
+}
+.qr-section-header.active .qr-section-header-content span {
+  color: black;
+  font-weight: bold;
 }
