@@ -116,6 +116,8 @@ function App() {
     'https://apps3.omegatheme.com/qr-code-generator-frontend/images/qr-code-(10)-1.png',
   ];
 
+  const [downloadFormat, setDownloadFormat] = useState('png');
+
   const handleDataChange = useCallback((data, tab) => {
     setQrData(generateQRData(data, tab))
     setShowQR(false)
@@ -150,10 +152,21 @@ function App() {
         return ''
     }
   }
-  const downloadQR = async () => {
+  const downloadQR = async (format) => {
+    const fileFormat = format || downloadFormat;
     if (!qrData) return;
-    const canvas = await generateCanvas(qrRef.current, size / 293);
-    downloadCanvasAsPNG(canvas, `qrcode-${size}x${size}.png`);
+    if (!qrStyling.current) return;
+    if (fileFormat === 'pdf') {
+      const canvas = await generateCanvas(qrRef.current, size / 293);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new window.jspdf.jsPDF({ unit: 'px', format: [size, size] });
+      pdf.addImage(imgData, 'PNG', 0, 0, size, size);
+      pdf.save(`qrcode-${size}x${size}.pdf`);
+    } else {
+      let ext = fileFormat;
+      if (ext === 'jpg') ext = 'jpeg';
+      await qrStyling.current.download({ name: `qrcode-${size}x${size}`, extension: ext });
+    }
   }
 
   const copyQR = async () => {
@@ -485,6 +498,8 @@ function App() {
               createQRCode={createQRCode}
               copyQR={copyQR}
               downloadQR={downloadQR}
+              downloadFormat={downloadFormat}
+              setDownloadFormat={setDownloadFormat}
             />
           </div>
         </div>

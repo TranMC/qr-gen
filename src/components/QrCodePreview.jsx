@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const QrCodePreview = ({
   qrRef,
@@ -10,7 +10,38 @@ const QrCodePreview = ({
   createQRCode,
   copyQR,
   downloadQR,
+  downloadFormat,
+  setDownloadFormat,
 }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  const handleDownloadClick = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  const handleFormatSelect = (format) => {
+    setDownloadFormat(format);
+    setShowDropdown(false);
+    downloadQR(format);
+  };
+
   return (
     <div className="qr-preview-section">
       <div className="qr-display-container">
@@ -36,16 +67,23 @@ const QrCodePreview = ({
         </div>
         <div className="size-display-text">{size} x {size} px</div>
       </div>
-      <div className="action-buttons-group">
+      <div className="action-buttons-group" style={{ position: 'relative' }}>
         <button onClick={createQRCode} className="create-qr-btn">
           Create QR Code                
         </button>
-        <button onClick={copyQR} className="copy-qr-btn">
-          📋 Copy QR Code
+        <button onClick={handleDownloadClick} className="download-qr-btn">
+          Download ▼
         </button>
-        <button onClick={downloadQR} className="download-qr-btn">
-          Download ({size}x{size}px)
-        </button>
+        {showDropdown && (
+          <div ref={dropdownRef} className="download-dropdown-menu" style={{ position: 'absolute', top: '100%', right: 0, zIndex: 10, background: '#fff', border: '1px solid #e9ecef', borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <div style={{ padding: '8px 0', minWidth: 120 }}>
+              <div className="dropdown-item" style={{ padding: '8px 16px', cursor: 'pointer' }} onClick={() => handleFormatSelect('png')}>PNG</div>
+              <div className="dropdown-item" style={{ padding: '8px 16px', cursor: 'pointer' }} onClick={() => handleFormatSelect('svg')}>SVG</div>
+              <div className="dropdown-item" style={{ padding: '8px 16px', cursor: 'pointer' }} onClick={() => handleFormatSelect('jpg')}>JPG</div>
+              <div className="dropdown-item" style={{ padding: '8px 16px', cursor: 'pointer' }} onClick={() => handleFormatSelect('pdf')}>PDF</div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

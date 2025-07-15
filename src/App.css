@@ -63,10 +63,10 @@ body {
 
 /* Main container */
 .qr-main-container {
-  max-width: 1200px;
+  max-width: 1252px;
   margin: 0 auto;
   background: white;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   border: 3px solid #1d1d1d;
@@ -549,8 +549,8 @@ body {
   min-width: 0;
   padding: 12px 0;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   text-align: center;
@@ -559,7 +559,7 @@ body {
 .create-qr-btn {
   background: #e91e63;
   color: #fff;
-  border: none;
+  border: 2px solid black;
 }
 .create-qr-btn:hover {
   background: #d81b60;
@@ -577,7 +577,7 @@ body {
 .download-qr-btn {
   background: #f8f9fa;
   color: #6c757d;
-  border: 1px solid #e9ecef;
+  border: 2px solid black;
 }
 .download-qr-btn:hover {
   background: #e9ecef;
