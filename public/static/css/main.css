@@ -462,8 +462,8 @@ code {
     display: block;
 }
 .card--expend.active {
-    border: 2px solid #1d1d1d;
-    box-shadow: 3px 3px 0 #1d1d1d;
+    /* border: 2px solid #1d1d1d; */
+    box-shadow: 2px 2px 0 #1d1d1d;
     color: #1d1d1d;
     transition-duration: .25s;
 }
@@ -616,4 +616,3 @@ code {
 .col__qrfaqs {
     margin: 1rem;
 }
-/*# sourceMappingURL=main.c452608a.css.map*/
