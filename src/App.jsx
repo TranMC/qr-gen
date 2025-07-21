@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { generateCanvas, downloadCanvasAsPNG, copyCanvasToClipboard } from './utils/qrUtils';
-import Faq from './components/Faq';
 import './App.css';
 import ColorOptions from './components/ColorOptions';
 import LogoOptions from './components/LogoOptions';
@@ -10,7 +9,10 @@ import QRCodeStyling from 'qr-code-styling';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import QrAdvantages from './components/QrAdvantages';
+import QRFormContent from './components/QRFormContent';
+import { Suspense, lazy } from 'react';
+const Faq = lazy(() => import('./components/Faq'));
+const QrAdvantages = lazy(() => import('./components/QrAdvantages'));
 
 const tabs = [
   { id: 'URL', label: 'URL', icon: '🔗' },
@@ -577,8 +579,11 @@ function App() {
         </div>
       </div>
 
-      <Faq faqData={faqData} />
-      
+      {/* FAQ Section */}
+      <Suspense fallback={<div>Đang tải...</div>}>
+        <Faq faqData={faqData} />
+      </Suspense>
+
 
       <div style={{ width: '100%', textAlign: 'center', marginTop: 44, marginBottom: 16 }}>
         <h1 style={{ fontSize: 56, fontWeight: 800, margin: 0, letterSpacing: '-2px' }}>
@@ -677,19 +682,14 @@ function App() {
         </div>
       </div>
 
-      <div className="qr-adv-title-section">
-        <h1 className="qr-adv-main-title">What are the advantages of using a QR Code?</h1>
-        <div className="qr-adv-subtitle">
-          Explore how QR Codes positively impact your business, marketing, and personal branding
-        </div>
-      </div>
-      <QrAdvantages />
+      {/* Advantages Section */}
+      <Suspense fallback={<div>Đang tải...</div>}>
+        <QrAdvantages />
+      </Suspense>
 
     </div>
   );
 }
-
-import QRFormContent from './components/QRFormContent';
 
 export default App;
 

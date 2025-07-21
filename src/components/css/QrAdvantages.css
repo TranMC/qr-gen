@@ -171,4 +171,40 @@
   .qr-adv-main-title {
     font-size: 32px;
   }
+}
+
+@media (max-width: 480px) {
+  .qr-advantages-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 8px;
+  }
+  .qr-advantages-left {
+    width: 100%;
+    gap: 12px;
+  }
+  .qr-advantages-right {
+    padding: 16px 6px;
+    border-radius: 10px;
+  }
+  .qr-advantages-grid,
+  .qr-advantages-grid-business,
+  .qr-advantages-grid-marketing,
+  .qr-advantages-grid-freelancer {
+    grid-template-columns: 1fr;
+    gap: 16px 0;
+  }
+  .qr-adv-img-placeholder,
+  .qr-adv-img-wide-placeholder {
+    width: 100%;
+    height: auto;
+    min-height: 120px;
+    max-width: 100%;
+  }
+  .qr-adv-main-title {
+    font-size: 22px;
+  }
+  .qr-adv-title-section {
+    padding: 0 4px;
+  }
 } 
