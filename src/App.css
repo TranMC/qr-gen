@@ -528,13 +528,26 @@ body {
   box-shadow: none;
   border: none;
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .qr-code-display:hover {
   transform: scale(1.02);
 }
-
+.hover {
+  display: none;
+}
+.qr-code-display:hover .hover {
+  display: absolute;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 2;
+}
 .reset-qr-btn {
   position: absolute;
   top: 346px;
@@ -1718,4 +1731,36 @@ select option {
     font-size: 12px;
     margin-top: 2px;
   }
+}
+
+.qr-code-display {
+  position: relative;
+  cursor: pointer;
+}
+
+.qr-code-display .hover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+  padding: 148px 120px;
+  border-radius: 8px;
+  /* color: #d72660; màu chủ đạo của bạn */
+  font-weight: 500;
+  font-size: 1.1em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qr-code-display:hover .hover,
+.qr-code-display:focus-within .hover {
+  opacity: 1;
+  pointer-events: auto;
 }
