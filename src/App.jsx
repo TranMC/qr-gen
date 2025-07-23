@@ -11,8 +11,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import QRFormContent from './components/QRFormContent';
 import { Suspense, lazy } from 'react';
-const Faq = lazy(() => import('./components/Faq'));
-const QrAdvantages = lazy(() => import('./components/QrAdvantages'));
+import Faq from './components/Faq';
+import QrAdvantages from './components/QrAdvantages';
+import Lightbox from './components/Lightbox';
 
 const tabs = [
   { id: 'URL', label: 'URL', icon: '🔗' },
@@ -80,7 +81,9 @@ function App() {
   const lightboxQrRef = useRef()
 
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxZoom, setLightboxZoom] = useState(1)
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 3;
+  const [lightboxZoom, setLightboxZoom] = useState(1);
   const [lightboxRotation, setLightboxRotation] = useState(0)
   const [colorMode, setColorMode] = useState('single'); // 'single', 'gradient', 'eye'
   const [fgColor2, setFgColor2] = useState('#5dde9f');
@@ -208,13 +211,8 @@ function App() {
     setLightboxOpen(false)
   }
 
-  const zoomIn = () => {
-    setLightboxZoom(prev => Math.min(prev + 0.25, 3))
-  }
-
-  const zoomOut = () => {
-    setLightboxZoom(prev => Math.max(prev - 0.25, 0.5))
-  }
+  const zoomIn = () => setLightboxZoom(prev => Math.min(prev + 0.25, MAX_ZOOM));
+  const zoomOut = () => setLightboxZoom(prev => Math.max(prev - 0.25, MIN_ZOOM));
 
   const rotateLeft = () => {
     setLightboxRotation(prev => prev - 90)
@@ -300,6 +298,14 @@ function App() {
       lightboxQrStyling.current.append(lightboxQrRef.current);
     }
   }, [lightboxOpen, qrData, fgColor, fgColor2, bgColor, colorMode, gradientType, eyeFrameColor, eyeBallColor, bodyShape, eyeBallShape, useCustomEye]);
+
+  // Thêm state cho flip
+  const [flipY, setFlipY] = useState(1); // 1 hoặc -1
+  const [flipX, setFlipX] = useState(1); // 1 hoặc -1
+
+  // Thêm hàm flip
+  const flipUpDown = () => setFlipY(prev => prev * -1);
+  const flipFrontBack = () => setFlipX(prev => prev * -1);
 
  
   
@@ -500,39 +506,42 @@ function App() {
         </div>
       </div>
         {}
-      {lightboxOpen && (
-        <div className="lightbox-overlay" onClick={closeLightbox}>
-          <div className="lightbox-container" onClick={(e) => e.stopPropagation()}>
+      <Lightbox open={lightboxOpen} onClose={closeLightbox} showControls={true} controls={null}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div 
               ref={lightboxQrRef}
               className="lightbox-qr-display lightbox-qr-display-style"
+            style={{
+              transform: `scale(${lightboxZoom}) rotate(${lightboxRotation}deg) scaleX(${flipX}) scaleY(${flipY})`,
+              transition: 'transform 0.2s',
+              width: 'auto',
+              height: 'auto',
+              display: 'inline-block',
+              margin: '0 auto'
+            }}
             />
-            
-            <div className="lightbox-controls">
-              <button onClick={zoomOut} className="control-btn" title="Zoom Out">
-                ➖
+          <div className="lightbox-controls" style={{marginTop: 24}}>
+            <button onClick={flipUpDown} className="control-btn" title="Flip Up/Down">
+              <svg width="16px" height="16px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" transform="rotate(90)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" d="M19.29894,13.097555 C19.9200379,13.097555 20.2332042,13.8469628 19.7969407,14.2892722 L14.369746,19.7916791 C14.0983279,20.0668585 13.6553376,20.0697948 13.3802994,19.7982374 C13.1052612,19.52668 13.1023265,19.0834622 13.3737445,18.8082827 L17.6255116,14.497593 L0.703482198,14.497593 C0.317070803,14.497593 0.00382247492,14.1841838 0.00382247492,13.797574 C0.00382247492,13.4109642 0.317070803,13.097555 0.703482198,13.097555 L19.29894,13.097555 Z M6.61970059,0.201762638 C6.89473881,0.473320047 6.89767354,0.91653784 6.62625551,1.19171729 L2.37448841,5.50240698 L19.2965178,5.50240698 C19.6829292,5.50240698 19.9961775,5.81581617 19.9961775,6.20242599 C19.9961775,6.58903581 19.6829292,6.902445 19.2965178,6.902445 L0.701060011,6.902445 C0.0799621139,6.902445 -0.233204177,6.15303716 0.203059275,5.7107278 L5.63025404,0.208320918 C5.90167207,-0.0668585286 6.34466238,-0.0697947706 6.61970059,0.201762638 Z"></path> </g></svg>
               </button>
-              <button onClick={zoomIn} className="control-btn" title="Zoom In">
-                ➕
+            <button onClick={flipFrontBack} className="control-btn" title="Flip Front/Back">
+              <svg width="16px" height="16px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" d="M19.29894,13.097555 C19.9200379,13.097555 20.2332042,13.8469628 19.7969407,14.2892722 L14.369746,19.7916791 C14.0983279,20.0668585 13.6553376,20.0697948 13.3802994,19.7982374 C13.1052612,19.52668 13.1023265,19.0834622 13.3737445,18.8082827 L17.6255116,14.497593 L0.703482198,14.497593 C0.317070803,14.497593 0.00382247492,14.1841838 0.00382247492,13.797574 C0.00382247492,13.4109642 0.317070803,13.097555 0.703482198,13.097555 L19.29894,13.097555 Z M6.61970059,0.201762638 C6.89473881,0.473320047 6.89767354,0.91653784 6.62625551,1.19171729 L2.37448841,5.50240698 L19.2965178,5.50240698 C19.6829292,5.50240698 19.9961775,5.81581617 19.9961775,6.20242599 C19.9961775,6.58903581 19.6829292,6.902445 19.2965178,6.902445 L0.701060011,6.902445 C0.0799621139,6.902445 -0.233204177,6.15303716 0.203059275,5.7107278 L5.63025404,0.208320918 C5.90167207,-0.0668585286 6.34466238,-0.0697947706 6.61970059,0.201762638 Z"></path> </g></svg>
               </button>
               <button onClick={rotateLeft} className="control-btn" title="Rotate Left">
-                ↶
+              <svg width="24px" height="24px" fill="#ffffff" viewBox="0 0 1024 1024" t="1569683458761" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10582" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" transform="matrix(-1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style type="text/css"></style></defs><path d="M480.5 251.2c13-1.6 25.9-2.4 38.8-2.5v63.9c0 6.5 7.5 10.1 12.6 6.1L660 217.6c4-3.2 4-9.2 0-12.3l-128-101c-5.1-4-12.6-0.4-12.6 6.1l-0.2 64c-118.6 0.5-235.8 53.4-314.6 154.2-69.6 89.2-95.7 198.6-81.1 302.4h74.9c-0.9-5.3-1.7-10.7-2.4-16.1-5.1-42.1-2.1-84.1 8.9-124.8 11.4-42.2 31-81.1 58.1-115.8 27.2-34.7 60.3-63.2 98.4-84.3 37-20.6 76.9-33.6 119.1-38.8z" p-id="10583"></path><path d="M880 418H352c-17.7 0-32 14.3-32 32v414c0 17.7 14.3 32 32 32h528c17.7 0 32-14.3 32-32V450c0-17.7-14.3-32-32-32z m-44 402H396V494h440v326z" p-id="10584"></path></g></svg>
               </button>
               <button onClick={rotateRight} className="control-btn" title="Rotate Right">
-                ↷
+              <svg width="24px" height="24px" fill="#ffffff" viewBox="0 0 1024 1024" t="1569683458761" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10582" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style type="text/css"></style></defs><path d="M480.5 251.2c13-1.6 25.9-2.4 38.8-2.5v63.9c0 6.5 7.5 10.1 12.6 6.1L660 217.6c4-3.2 4-9.2 0-12.3l-128-101c-5.1-4-12.6-0.4-12.6 6.1l-0.2 64c-118.6 0.5-235.8 53.4-314.6 154.2-69.6 89.2-95.7 198.6-81.1 302.4h74.9c-0.9-5.3-1.7-10.7-2.4-16.1-5.1-42.1-2.1-84.1 8.9-124.8 11.4-42.2 31-81.1 58.1-115.8 27.2-34.7 60.3-63.2 98.4-84.3 37-20.6 76.9-33.6 119.1-38.8z" p-id="10583"></path><path d="M880 418H352c-17.7 0-32 14.3-32 32v414c0 17.7 14.3 32 32 32h528c17.7 0 32-14.3 32-32V450c0-17.7-14.3-32-32-32z m-44 402H396V494h440v326z" p-id="10584"></path></g></svg>
               </button>
-              <button onClick={copyLightboxQR} className="control-btn" title="Copy">
-                📋
+            <button onClick={zoomOut} className="control-btn" title="Zoom Out" disabled={lightboxZoom <= MIN_ZOOM} style={lightboxZoom <= MIN_ZOOM ? {opacity: 0.5, pointerEvents: 'none'} : {}}>
+              <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="zoom-out"> <g> <circle cx="10.1" cy="10.1" fill="none" r="8" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></circle> <line fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="21.9" x2="16.3" y1="21.9" y2="16.3"></line> <line fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="13.1" x2="7.1" y1="10.1" y2="10.1"></line> </g> </g> </g> </g></svg>
               </button>
-              <button onClick={downloadLightboxQR} className="control-btn" title="Download">
-                💾
-              </button>
-              <button onClick={closeLightbox} className="control-btn close-btn" title="Close">
-                ✖️
+            <button onClick={zoomIn} className="control-btn" title="Zoom In">
+              <svg width="27px" height="27px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>zoom-in</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <g> <path d="M24,17H21V14a2,2,0,0,0-4,0v3H14a2,2,0,0,0,0,4h3v3a2,2,0,0,0,4,0V21h3a2,2,0,0,0,0-4Z"></path> <path d="M43.4,40.6,30.9,28.1A15.1,15.1,0,0,0,34,19,15,15,0,1,0,19,34a15.1,15.1,0,0,0,9.1-3.1L40.6,43.4a1.9,1.9,0,0,0,2.8,0A1.9,1.9,0,0,0,43.4,40.6ZM19,30A11,11,0,1,1,30,19,11,11,0,0,1,19,30Z"></path> </g> </g> </g> </g></svg>
               </button>
             </div>
           </div>
-        </div>      )}      
+      </Lightbox>
         {}
       <div className="info-section">
         <div className="info-container">
