@@ -46,7 +46,7 @@ const QrCodePreview = ({
     <div className="qr-preview-section">
       <div className="qr-display-container">
         {showQR && (
-          <div ref={qrRef} className="qr-code-display" onClick={openLightbox} />
+          <div ref={qrRef} className="qr-code-display" onClick={openLightbox}></div>
         )}
         <button className="reset-qr-btn" onClick={resetQR}>Reset</button>
       </div>
